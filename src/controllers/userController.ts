@@ -10,9 +10,9 @@ export class UserController {
     };
 
     async createUser(req: Request, res: Response) {
-        const { user } = req.body;
+        const { username } = req.body;
 
-        const result = await userService.createUser(user);
+        const result = await userService.createUser(username);
 
         return res.json(result);
     }

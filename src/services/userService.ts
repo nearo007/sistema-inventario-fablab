@@ -1,13 +1,32 @@
 import { UserModel } from "../models/userModel.js"
+import { prisma } from '../lib/prisma.js';
 
 export class UserService {
-    private userModel = new UserModel();
-
     async getUsers() {
-        return this.userModel.findAll();
+        const allUsers = await prisma.user.findMany({
+            include: {
+                posts: true,
+            },
+        });
+
+        return allUsers;
     }
 
-    async createUser(user: String) {
-        return `Usuário ${user} criado no sistema.`
-    }
+    async createUser(username: String) {
+    const user = prisma.user.create({
+        data: {
+            name: `${username}`,
+            email: `${username}@prisma.io`,
+            posts: {
+                create: {
+                    title: "Hello World",
+                    content: "This is my first post!",
+                    published: true,
+                },
+            },
+        }
+    })
+
+    return user;
+}
 }
