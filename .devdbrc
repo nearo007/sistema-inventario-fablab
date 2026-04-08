@@ -1,0 +1,6 @@
+[
+  {
+    "type": "sqlite",
+    "path": "c:\\Users\\arauj\\Desktop\\VSC\\Node\\chat-websocket\\dev.db"
+  }
+]
