@@ -5,7 +5,7 @@ import router from './routes/userRoutes';
 const app = express();
 
 app.use(cors());
-
+app.use(express.json())
 app.use('/u', router);
 
 export default app;

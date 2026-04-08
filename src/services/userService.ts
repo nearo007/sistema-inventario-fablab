@@ -6,4 +6,8 @@ export class UserService {
     async getUsers() {
         return this.userModel.findAll();
     }
+
+    async createUser(user: String) {
+        return `Usuário ${user} criado no sistema.`
+    }
 }
