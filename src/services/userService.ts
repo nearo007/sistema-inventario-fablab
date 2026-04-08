@@ -1,4 +1,3 @@
-import { UserModel } from "../models/userModel.js"
 import { prisma } from '../lib/prisma.js';
 
 export class UserService {
