@@ -5,7 +5,7 @@ class ItemController {
     async createItem(req: Request, res: Response) {
         const {name, category, totalQuantity, location} = req.body;
 
-        const item = await itemService.createItem(name, category, totalQuantity, location);
+        const item = await itemService.createItem({name, category, totalQuantity, location});
         return res.json(item);
     };
 

@@ -1,9 +1,9 @@
 import { prisma } from '../lib/prisma.js';
 
 class UserService {
-    async createUser(name: string, email: string) {
+    async createUser(data: {name?: string, email: string}) {
         const user = await prisma.user.create({
-            data: {name, email}
+            data
         });
         return user;
     };
