@@ -1,7 +1,7 @@
 import { prisma } from '../lib/prisma.js'
 
 class LoanService {
-    async createLoan(userId: number, itemId: number, data: {loanDate: Date, dueDate: Date, returnDate: Date}) {
+    async create(userId: number, itemId: number, data: {loanDate: Date, dueDate: Date, returnDate: Date}) {
         const loan = await prisma.loan.create({
             data: {
                 user: {connect: {id: userId}},
@@ -12,19 +12,19 @@ class LoanService {
         return loan;
     };
 
-    async getLoans() {
+    async getAll() {
         const loans = await prisma.loan.findMany();
         return loans;
     };
 
-    async updateLoanById(id: number, data: {loanDate?: Date, dueDate?: Date, returnDate?: Date}) {
+    async updateById(id: number, data: {loanDate?: Date, dueDate?: Date, returnDate?: Date}) {
         const loan = await prisma.loan.update({
             where: {id},
             data
         });
     };
 
-    async deleteLoanById(id: number) {
+    async deleteById(id: number) {
         await prisma.loan.delete({
             where: {id}
         });

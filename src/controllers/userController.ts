@@ -3,32 +3,32 @@ import { userService } from '../services/userService.js';
 import { Email } from '../utils/email.js';
 
 class UserController {
-    async createUser(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         const { name, email } = req.body;
         Email.validate(email);
 
-        const user = await userService.createUser({ name, email });
+        const user = await userService.create({ name, email });
         return res.status(200).json(user);
     };
 
-    async getUsers(req: Request, res: Response) {
-        const users = await userService.getUsers();
+    async getAll(req: Request, res: Response) {
+        const users = await userService.getAll();
         return res.status(200).json(users);
     };
 
-    async updateUserById(req: Request, res: Response) {
+    async updateById(req: Request, res: Response) {
         const userId = Number(req.params.id);
         const { name, email } = req.body;
 
-        Email.validate(email);
+        if (email) Email.validate(email);
 
-        const user = await userService.updateUserById(userId, { name, email });
+        const user = await userService.updateById(userId, { name, email });
         return res.status(200).json(user);
     };
 
-    async deleteUserById(req: Request, res: Response) {
+    async deleteById(req: Request, res: Response) {
         const userId = Number(req.params.id);
-        await userService.deleteUserById(userId);
+        await userService.deleteById(userId);
         return res.status(200).send();
     };
 };

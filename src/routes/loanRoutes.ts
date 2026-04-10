@@ -3,9 +3,9 @@ import { loanController } from '../controllers/loanController.js';
 
 const loanRouter = Router();
 
-loanRouter.post('/create', loanController.createLoan);
-loanRouter.get('/', loanController.getLoans);
-loanRouter.patch('/:id', loanController.updateLoanById);
-loanRouter.delete('/:id', loanController.deleteLoanById);
+loanRouter.post('/create', loanController.create);
+loanRouter.get('/', loanController.getAll);
+loanRouter.patch('/:id', loanController.updateById);
+loanRouter.delete('/:id', loanController.deleteById);
 
 export { loanRouter };

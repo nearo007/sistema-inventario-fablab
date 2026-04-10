@@ -1,35 +1,43 @@
 import { prisma } from '../lib/prisma.js';
 
 class UserService {
-    async createUser(data: { name?: string, email: string }) {
-        const alreadyExists = await prisma.user.findUnique({
-                where: {
-                    email: data.email
-                }
-        });
-
-        if (alreadyExists) throw new Error("Esse email já está cadastrado no sistema");
-
-        const user = await prisma.user.create({
-            data
-        });
-        return user;
+    async create(data: { name?: string, email: string }) {
+        try {
+            const user = await prisma.user.create({
+                data
+            });
+            return user;
+        } catch (err: any) {
+            if (err.code == 'P2002') {
+                throw new Error("Email já está cadastrado no sistema!");
+            }
+        }
     };
 
-    async getUsers() {
+    async getAll() {
         const allUsers = await prisma.user.findMany();
+
+        if (!allUsers) throw new Error("Nenhum usuário cadastrado no sistema.");
+
         return allUsers;
     };
 
-    async updateUserById(id: number, data: { name?: string, email?: string }) {
-        const user = await prisma.user.update({
-            where: { id },
-            data
-        });
-        return user;
+    async updateById(id: number, data: { name?: string, email?: string }) {
+        try {
+            const user = await prisma.user.update({
+                where: { id },
+                data
+            });
+            return user;
+        } catch (err: any) {
+            if (err.code == 'P2002') {
+                throw new Error("Email já está cadastrado no sistema!");
+            }
+        }
     };
 
-    async deleteUserById(id: number) {
+    async deleteById(id: number) {
+
         const user = await prisma.user.delete({
             where: { id }
         });

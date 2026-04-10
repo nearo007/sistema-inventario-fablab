@@ -1,19 +1,19 @@
 import { prisma } from '../lib/prisma.js';
 
 class ItemService {
-    async createItem(data: {name: string, category?: string, totalQuantity: number, location: string}) {
+    async create(data: {name: string, category?: string, totalQuantity: number, location: string}) {
         const item = await prisma.item.create({
             data
         });
         return item;
     };
     
-    async getItems() {
+    async getAll() {
         const items = await prisma.item.findMany();
         return items;
     };
 
-    async updateItemById(id: number, data: {name?: string, category?: string, totalQuantity?: number, location?: string}) {
+    async updateById(id: number, data: {name?: string, category?: string, totalQuantity?: number, location?: string}) {
         const item = await prisma.item.update({
             where: {id},
             data
@@ -21,7 +21,7 @@ class ItemService {
         return item;
     }
 
-    async deleteItemById(id: number) {
+    async deleteById(id: number) {
         const item = await prisma.item.delete({
             where: {id}
         });

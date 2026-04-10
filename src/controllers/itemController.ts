@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import { itemService } from '../services/itemService.js';
 
 class ItemController {
-    async createItem(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         const {
             name,
             category,
@@ -10,7 +10,7 @@ class ItemController {
             location
         } = req.body;
 
-        const item = await itemService.createItem({
+        const item = await itemService.create({
             name,
             category,
             totalQuantity,
@@ -19,12 +19,12 @@ class ItemController {
         return res.status(200).json(item);
     };
 
-    async getItems(req: Request, res: Response) {
-        const items = await itemService.getItems();
+    async getAll(req: Request, res: Response) {
+        const items = await itemService.getAll();
         return res.status(200).json(items);
     };
 
-    async updateItemById(req: Request, res: Response) {
+    async updateById(req: Request, res: Response) {
         const itemId = Number(req.params.id);
         const {
             name,
@@ -33,7 +33,7 @@ class ItemController {
             location
         } = req.body;
 
-        const item = await itemService.updateItemById(itemId, {
+        const item = await itemService.updateById(itemId, {
             name,
             category,
             totalQuantity,
@@ -42,9 +42,9 @@ class ItemController {
         return res.status(200).json(item);
     }
 
-    async deleteitemById(req: Request, res: Response) {
+    async deleteById(req: Request, res: Response) {
         const itemId = Number(req.params.id);
-        const item = await itemService.deleteItemById(itemId);
+        const item = await itemService.deleteById(itemId);
         return res.status(200).json(item);
     }
 };

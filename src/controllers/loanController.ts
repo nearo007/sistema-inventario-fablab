@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import { loanService } from '../services/loanService.js'
 
 class LoanController {
-    async createLoan(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         const {
             userId,
             itemId,
@@ -11,7 +11,7 @@ class LoanController {
             returnDate
         } = req.body;
 
-        const loan = await loanService.createLoan(userId, itemId, {
+        const loan = await loanService.create(userId, itemId, {
             loanDate: new Date(loanDate),
             dueDate: new Date(dueDate),
             returnDate: new Date(returnDate)
@@ -19,12 +19,12 @@ class LoanController {
         return res.json(loan);
     }
 
-    async getLoans(req: Request, res: Response) {
+    async getAll(req: Request, res: Response) {
         const loans = await loanService.getLoans();
         return res.json(loans);
     }
 
-    async updateLoanById(req: Request, res: Response) {
+    async updateById(req: Request, res: Response) {
         const loanId = Number(req.params.id);
         const {
             loanDate,
@@ -32,7 +32,7 @@ class LoanController {
             returnDate
         } = req.body;
 
-        const loan = await loanService.updateLoanById(loanId, {
+        const loan = await loanService.updateById(loanId, {
             loanDate: new Date(loanDate),
             dueDate: new Date(dueDate),
             returnDate: new Date(returnDate)
@@ -40,9 +40,9 @@ class LoanController {
         return res.json(loan);
     }
 
-    async deleteLoanById(req: Request, res: Response) {
+    async deleteById(req: Request, res: Response) {
         const loanId = Number(req.params.id);
-        await loanService.deleteLoanById(loanId);
+        await loanService.deleteById(loanId);
         return res.status(200).send();
     }
 }
