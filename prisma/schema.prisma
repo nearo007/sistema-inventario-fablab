@@ -27,8 +27,8 @@ model Loan {
   id Int @id @default(autoincrement())
 
   loanDate DateTime @default(now())
-  dueDate DateTime // TODO dueDate > loanDate
-  returnDate DateTime? // TODO status: returnDate != null => RETURNED // dueDate < now && returnDate == null => LATE // else => ACTIVE
+  dueDate DateTime 
+  returnDate DateTime?
 
   user User @relation(fields: [userId], references: [id])
   userId Int

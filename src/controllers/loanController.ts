@@ -3,9 +3,19 @@ import { loanService } from '../services/loanService.js'
 
 class LoanController {
     async createLoan(req: Request, res: Response) {
-        const { userId, itemId, loanDate, dueDate, returnDate } = req.body;
+        const {
+            userId,
+            itemId,
+            loanDate,
+            dueDate,
+            returnDate
+        } = req.body;
 
-        const loan = await loanService.createLoan(userId, itemId, {loanDate: new Date(loanDate), dueDate: new Date(dueDate), returnDate: new Date(returnDate)});
+        const loan = await loanService.createLoan(userId, itemId, {
+            loanDate: new Date(loanDate),
+            dueDate: new Date(dueDate),
+            returnDate: new Date(returnDate)
+        });
         return res.json(loan);
     }
 
@@ -16,8 +26,17 @@ class LoanController {
 
     async updateLoanById(req: Request, res: Response) {
         const loanId = Number(req.params.id);
-        const { loanDate, dueDate, returnDate } = req.body;
-        const loan = await loanService.updateLoanById(loanId, {loanDate: new Date(loanDate), dueDate: new Date(dueDate), returnDate: new Date(returnDate)});
+        const {
+            loanDate,
+            dueDate,
+            returnDate
+        } = req.body;
+
+        const loan = await loanService.updateLoanById(loanId, {
+            loanDate: new Date(loanDate),
+            dueDate: new Date(dueDate),
+            returnDate: new Date(returnDate)
+        });
         return res.json(loan);
     }
 

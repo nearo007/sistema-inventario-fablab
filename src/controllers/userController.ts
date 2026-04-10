@@ -16,10 +16,7 @@ class UserController {
 
     async updateUserById(req: Request, res: Response) {
         const userId = Number(req.params.id);
-        const {
-            name = undefined,
-            email = undefined
-        } = req.body;
+        const {name, email} = req.body;
 
         await userService.updateUserById(userId, {name, email});
         return res.status(200).send();

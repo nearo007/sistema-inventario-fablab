@@ -17,7 +17,7 @@ class LoanService {
         return loans;
     };
 
-    async updateLoanById(id: number, data: {loanDate: Date, dueDate: Date, returnDate: Date}) {
+    async updateLoanById(id: number, data: {loanDate?: Date, dueDate?: Date, returnDate?: Date}) {
         const loan = await prisma.loan.update({
             where: {id},
             data

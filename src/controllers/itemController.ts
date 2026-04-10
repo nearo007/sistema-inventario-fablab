@@ -3,9 +3,19 @@ import { itemService } from '../services/itemService.js';
 
 class ItemController {
     async createItem(req: Request, res: Response) {
-        const {name, category, totalQuantity, location} = req.body;
+        const {
+            name,
+            category,
+            totalQuantity,
+            location
+        } = req.body;
 
-        const item = await itemService.createItem({name, category, totalQuantity, location});
+        const item = await itemService.createItem({
+            name,
+            category,
+            totalQuantity,
+            location
+        });
         return res.json(item);
     };
 
@@ -17,14 +27,19 @@ class ItemController {
     async updateItemById(req: Request, res: Response) {
         const itemId = Number(req.params.id);
         const {
-            name = undefined,
-            category = undefined,
-            totalQuantity = undefined,
-            location = undefined
+            name,
+            category,
+            totalQuantity,
+            location
         } = req.body;
 
-        await itemService.updateItemById(itemId, {name, category, totalQuantity, location});
-        return res.status(200).send();
+        const item = await itemService.updateItemById(itemId, {
+            name,
+            category,
+            totalQuantity,
+            location
+        });
+        return res.json(item);
     }
 
     async deleteitemById(req: Request, res: Response) {
