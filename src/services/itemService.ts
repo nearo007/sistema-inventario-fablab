@@ -1,7 +1,6 @@
 import { prisma } from '../lib/prisma.js';
 
 class ItemService {
-    //TODO pass object argument and nullable variables
     async createItem(data: {name: string, category?: string, totalQuantity: number, location: string}) {
         const item = await prisma.item.create({
             data
