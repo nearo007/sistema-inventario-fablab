@@ -7,7 +7,5 @@ export class Email {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)) {
             throw new Error('Email invalido!');
         };
-
-        return raw.toLowerCase().trim();
     }
 }

@@ -16,12 +16,12 @@ class ItemController {
             totalQuantity,
             location
         });
-        return res.json(item);
+        return res.status(200).json(item);
     };
 
     async getItems(req: Request, res: Response) {
         const items = await itemService.getItems();
-        return res.json(items);
+        return res.status(200).json(items);
     };
 
     async updateItemById(req: Request, res: Response) {
@@ -39,13 +39,13 @@ class ItemController {
             totalQuantity,
             location
         });
-        return res.json(item);
+        return res.status(200).json(item);
     }
 
     async deleteitemById(req: Request, res: Response) {
         const itemId = Number(req.params.id);
-        await itemService.deleteItemById(itemId);
-        return res.status(200).send();
+        const item = await itemService.deleteItemById(itemId);
+        return res.status(200).json(item);
     }
 };
 

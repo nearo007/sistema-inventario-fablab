@@ -14,18 +14,18 @@ class ItemService {
     };
 
     async updateItemById(id: number, data: {name?: string, category?: string, totalQuantity?: number, location?: string}) {
-        await prisma.item.update({
+        const item = await prisma.item.update({
             where: {id},
             data
         });
-        return true;
+        return item;
     }
 
     async deleteItemById(id: number) {
-        await prisma.item.delete({
+        const item = await prisma.item.delete({
             where: {id}
         });
-        return true;
+        return item;
     }
 };
 
