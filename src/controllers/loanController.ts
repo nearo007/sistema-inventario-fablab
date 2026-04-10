@@ -20,7 +20,7 @@ class LoanController {
     }
 
     async getAll(req: Request, res: Response) {
-        const loans = await loanService.getLoans();
+        const loans = await loanService.getAll();
         return res.json(loans);
     }
 
