@@ -1,11 +1,12 @@
 import type { Request, Response } from 'express';
 import { userService } from '../services/userService.js';
+import { Email } from '../domain/Email.js';
 
 class UserController {
     async createUser(req: Request, res: Response) {
         const { name, email } = req.body;
-
-        const user = await userService.createUser({name, email});
+        const validEmail = Email.validate(email)
+        const user = await userService.createUser({ name, email: validEmail });
         return res.json(user);
     };
 
@@ -16,9 +17,11 @@ class UserController {
 
     async updateUserById(req: Request, res: Response) {
         const userId = Number(req.params.id);
-        const {name, email} = req.body;
+        const { name, email } = req.body;
 
-        await userService.updateUserById(userId, {name, email});
+        const validEmail = Email.validate(email);
+
+        await userService.updateUserById(userId, { name, email: validEmail });
         return res.status(200).send();
     };
 
