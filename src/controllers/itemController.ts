@@ -14,7 +14,7 @@ class ItemController {
         return res.json(items);
     };
 
-    async updateItem(req: Request, res: Response) {
+    async updateItemById(req: Request, res: Response) {
         const itemId = Number(req.params.id);
         const {
             name = undefined,
@@ -23,7 +23,7 @@ class ItemController {
             location = undefined
         } = req.body;
 
-        await itemService.updateItem(itemId, {name, category, totalQuantity, location});
+        await itemService.updateItemById(itemId, {name, category, totalQuantity, location});
         return res.status(200).send();
     }
 

@@ -13,7 +13,7 @@ class ItemService {
         return items;
     };
 
-    async updateItem(id: number, data: {name?: string, category?: string, totalQuantity?: number, location?: string}) {
+    async updateItemById(id: number, data: {name?: string, category?: string, totalQuantity?: number, location?: string}) {
         await prisma.item.update({
             where: {id},
             data
