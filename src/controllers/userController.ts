@@ -1,13 +1,14 @@
 import type { Request, Response } from 'express';
 import { userService } from '../services/userService.js';
 import { Email } from '../utils/email.js';
+import type { CreateUserDTO, UpdateUserDTO } from '../dtos/userDTO.js';
 
 class UserController {
     async create(req: Request, res: Response) {
-        const { name, email } = req.body;
-        Email.validate(email);
+        const data: CreateUserDTO = req.body;
+        Email.validate(data.email);
 
-        const user = await userService.create({ name, email });
+        const user = await userService.create(data);
         return res.status(200).json(user);
     };
 
@@ -18,11 +19,11 @@ class UserController {
 
     async updateById(req: Request, res: Response) {
         const userId = Number(req.params.id);
-        const { name, email } = req.body;
+        const data: UpdateUserDTO = req.body;
 
-        if (email) Email.validate(email);
+        if (data.email) Email.validate(data.email);
 
-        const user = await userService.updateById(userId, { name, email });
+        const user = await userService.updateById(userId, data);
         return res.status(200).json(user);
     };
 
