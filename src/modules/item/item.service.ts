@@ -1,4 +1,4 @@
-import { prisma } from '../lib/prisma.js';
+import { prisma } from "../../lib/prisma.js";
 
 class ItemService {
     async create(data: {name: string, category?: string, totalQuantity: number, location: string}) {

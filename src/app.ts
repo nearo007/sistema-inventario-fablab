@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import { userRouter } from './routes/userRoutes.js';
-import { itemRouter } from './routes/itemRoutes.js';
-import { loanRouter } from './routes/loanRoutes.js';
+
 import { errorHandler } from './middlewares/errorHandler.js';
+import { userRouter } from './modules/user/user.routes.js';
+import { itemRouter } from './modules/item/item.routes.js';
+import { loanRouter } from './modules/loan/loan.routes.js';
 
 const app = express();
 

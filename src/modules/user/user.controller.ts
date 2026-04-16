@@ -1,7 +1,8 @@
 import type { Request, Response } from 'express';
-import { userService } from '../services/userService.js';
-import { Email } from '../utils/email.js';
-import type { CreateUserDTO, UpdateUserDTO } from '../dtos/userDTO.js';
+import { Email } from '../../utils/email.js';
+import { userService } from './user.service.js';
+import type { CreateUserDTO } from './dtos/CreateUserDTO.js';
+import type { UpdateUserDTO } from './dtos/UpdateUserDTO.js';
 
 class UserController {
     async create(req: Request, res: Response) {
