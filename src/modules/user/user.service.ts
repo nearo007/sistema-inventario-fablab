@@ -1,3 +1,4 @@
+import { USER } from "../../constants/messages/user.js";
 import { prisma } from "../../lib/prisma.js";
 
 class UserService {
@@ -9,7 +10,7 @@ class UserService {
             return user;
         } catch (err: any) {
             if (err.code == "P2002") {
-                throw new Error("Email já está cadastrado no sistema!");
+                throw new Error(USER.create.email.alreadyExists);
             }
         }
     }
@@ -17,7 +18,7 @@ class UserService {
     async getAll() {
         const allUsers = await prisma.user.findMany();
 
-        if (!allUsers) throw new Error("Nenhum usuário cadastrado no sistema.");
+        if (!allUsers) throw new Error(USER.read.any.notFound);
 
         return allUsers;
     }
@@ -31,7 +32,7 @@ class UserService {
             return user;
         } catch (err: any) {
             if (err.code == "P2002") {
-                throw new Error("Email já está cadastrado no sistema!");
+                throw new Error(USER.update.email.alreadyExists);
             }
         }
     }
