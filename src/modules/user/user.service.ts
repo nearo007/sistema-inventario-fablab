@@ -20,14 +20,14 @@ class UserService {
                     throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
                 }
             }
-            throw new Error(err.code);
+            throw new Error(`Erro inesperado: ${err.code}`);
         }
     }
 
     async getAll() {
         const allUsers = await prisma.user.findMany();
 
-        if (!allUsers) throw new Error(MESSAGES.USER.NOT_FOUND.GENERAL);
+        if (!allUsers) throw new Error(MESSAGES.USER.NOT_FOUND.ANY);
 
         return allUsers;
     }
@@ -48,15 +48,27 @@ class UserService {
                 } else if (uniqueConstraint === "email") {
                     throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
                 }
+            } else if (err.code === "P2025") {
+                throw new Error(MESSAGES.USER.NOT_FOUND.GENERAL);
             }
+
+            throw new Error(`Erro inesperado: ${err.code}`);
         }
     }
 
     async deleteById(id: number) {
-        const user = await prisma.user.delete({
-            where: { id },
-        });
-        return user;
+        try {
+            const user = await prisma.user.delete({
+                where: { id },
+            });
+            return user;
+        } catch (err: any) {
+            if (err.code === "P2025") {
+                throw new Error(MESSAGES.USER.NOT_FOUND.GENERAL);
+            }
+
+            throw new Error(`Erro inesperado: ${err.code}`);
+        }
     }
 }
 

@@ -1,7 +1,8 @@
 export const MESSAGES = {
   USER: {
     NOT_FOUND: {
-      GENERAL: "Nenhum usuário cadastrado.",
+      ANY: "Nenhum usuário cadastrado.",
+      GENERAL: "Usuário não encontrado.",
       BY_ID: "Não foi possível encontrar um usuário com esse ID.",
       BY_NAME: "Não foi possível encontrar um usuário com esse nome.",
     },
