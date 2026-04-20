@@ -1,7 +1,7 @@
 import { MESSAGES } from "../../constants/messages.js";
 import { prisma } from "../../lib/prisma.js";
 import { errorHandler } from "../../middlewares/errorHandler.js";
-import { handlePrismaError } from "../../utils/prisma-error-handler.js";
+import { handlePrismaError } from "../../utils/prisma.js";
 class UserService {
     async create(data: { name: string; email: string }) {
         const { name, email } = data;
