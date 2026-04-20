@@ -5,16 +5,23 @@ class UserService {
     async create(data: { name: string; email: string }) {
         const { name, email } = data;
 
-        if (await prisma.user.findFirst({ where: { name } })) {
-            throw new Error(MESSAGES.USER.CONFLICT.NAME_EXISTS);
-        } else if (await prisma.user.findFirst({ where: { email } })) {
-            throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
+        try {
+            const user = await prisma.user.create({
+                data,
+            });
+            return user;
+        } catch (err: any) {
+            if (err.code === "P2002") {
+                const uniqueConstraint =
+                    err.meta.driverAdapterError.cause.constraint.fields[0];
+                if (uniqueConstraint === "name") {
+                    throw new Error(MESSAGES.USER.CONFLICT.NAME_EXISTS);
+                } else if (uniqueConstraint === "email") {
+                    throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
+                }
+            }
+            throw new Error(err.code);
         }
-
-        const user = await prisma.user.create({
-            data,
-        });
-        return user;
     }
 
     async getAll() {
@@ -33,9 +40,14 @@ class UserService {
             });
             return user;
         } catch (err: any) {
-            if (err.code == "P2002") {
-                throw new Error(MESSAGES.USER.CONFLICT.NAME_EXISTS);
-                throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
+            if (err.code === "P2002") {
+                const uniqueConstraint =
+                    err.meta.driverAdapterError.cause.constraint.fields[0];
+                if (uniqueConstraint === "name") {
+                    throw new Error(MESSAGES.USER.CONFLICT.NAME_EXISTS);
+                } else if (uniqueConstraint === "email") {
+                    throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
+                }
             }
         }
     }

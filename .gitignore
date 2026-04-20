@@ -2,4 +2,6 @@ node_modules
 .env
 *.db
 /generated/prisma
-track.txt
+test.txt
+
+/src/generated/prisma
