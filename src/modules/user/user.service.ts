@@ -12,18 +12,15 @@ class UserService {
             });
             return user;
         } catch (err: any) {
-            handlePrismaError(err)
+            handlePrismaError(err);
         }
     }
 
     async getAll() {
         try {
             const allUsers = await prisma.user.findMany();
-    
-            if (!allUsers) throw new Error(MESSAGES.USER.NOT_FOUND.ANY);
-    
             return allUsers;
-        } catch (err:any) {
+        } catch (err: any) {
             handlePrismaError(err);
         }
     }
@@ -36,7 +33,7 @@ class UserService {
             });
             return user;
         } catch (err: any) {
-            handlePrismaError(err)
+            handlePrismaError(err);
         }
     }
 
