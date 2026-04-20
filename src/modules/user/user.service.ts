@@ -1,6 +1,7 @@
 import { MESSAGES } from "../../constants/messages.js";
 import { prisma } from "../../lib/prisma.js";
-
+import { errorHandler } from "../../middlewares/errorHandler.js";
+import { handlePrismaError } from "../../utils/prisma-error-handler.js";
 class UserService {
     async create(data: { name: string; email: string }) {
         const { name, email } = data;
@@ -11,25 +12,20 @@ class UserService {
             });
             return user;
         } catch (err: any) {
-            if (err.code === "P2002") {
-                const uniqueConstraint =
-                    err.meta.driverAdapterError.cause.constraint.fields[0];
-                if (uniqueConstraint === "name") {
-                    throw new Error(MESSAGES.USER.CONFLICT.NAME_EXISTS);
-                } else if (uniqueConstraint === "email") {
-                    throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
-                }
-            }
-            throw new Error(`Erro inesperado: ${err.code}`);
+            handlePrismaError(err)
         }
     }
 
     async getAll() {
-        const allUsers = await prisma.user.findMany();
-
-        if (!allUsers) throw new Error(MESSAGES.USER.NOT_FOUND.ANY);
-
-        return allUsers;
+        try {
+            const allUsers = await prisma.user.findMany();
+    
+            if (!allUsers) throw new Error(MESSAGES.USER.NOT_FOUND.ANY);
+    
+            return allUsers;
+        } catch (err:any) {
+            handlePrismaError(err);
+        }
     }
 
     async updateById(id: number, data: { name?: string; email?: string }) {
@@ -40,19 +36,7 @@ class UserService {
             });
             return user;
         } catch (err: any) {
-            if (err.code === "P2002") {
-                const uniqueConstraint =
-                    err.meta.driverAdapterError.cause.constraint.fields[0];
-                if (uniqueConstraint === "name") {
-                    throw new Error(MESSAGES.USER.CONFLICT.NAME_EXISTS);
-                } else if (uniqueConstraint === "email") {
-                    throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
-                }
-            } else if (err.code === "P2025") {
-                throw new Error(MESSAGES.USER.NOT_FOUND.GENERAL);
-            }
-
-            throw new Error(`Erro inesperado: ${err.code}`);
+            handlePrismaError(err)
         }
     }
 
@@ -63,11 +47,7 @@ class UserService {
             });
             return user;
         } catch (err: any) {
-            if (err.code === "P2025") {
-                throw new Error(MESSAGES.USER.NOT_FOUND.GENERAL);
-            }
-
-            throw new Error(`Erro inesperado: ${err.code}`);
+            handlePrismaError(err);
         }
     }
 }
