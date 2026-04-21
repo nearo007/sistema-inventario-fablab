@@ -5,6 +5,11 @@ export type CreateUserDTO = {
   passwordConfirm: string;
 };
 
+export type LoginUserDTO = {
+  email: string;
+  password: string;
+}
+
 export type UpdateUserDTO = {
     name?: string;
     email?: string;

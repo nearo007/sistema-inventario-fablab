@@ -5,11 +5,13 @@ export const MESSAGES = {
             BY_ID: "Não foi possível encontrar um usuário com esse ID.",
             BY_USERNAME:
                 "Não foi possível encontrar um usuário com esse usuário.",
+            BY_EMAIL : "Não foi possível encontrar um usuário com esse email.",
         },
         CONFLICT: {
             USERNAME_EXISTS: "Este nome de usuário já está em uso.",
             EMAIL_EXISTS: "Este e-mail já está cadastrado no sistema.",
-            PASSWORDS_DO_NOT_MATCH: "As senhas não coincidem."
+            PASSWORDS_DO_NOT_MATCH: "As senhas não coincidem.",
+            INCORRECT_PASSWORD: "Senha incorreta."
         },
         VALIDATION: {
             USERNAME_REQUIRED: "O usuário é obrigatório",

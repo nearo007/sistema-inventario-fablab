@@ -1,8 +1,7 @@
 import type { Request, Response } from "express";
 import { EmailValidator } from "../../shared/utils/validators/email.validator.js";
 import { userService } from "./user.service.js";
-import type { CreateUserDTO, UpdateUserDTO } from "./user.dtos.js";
-import { PasswordValidator } from "../../shared/utils/validators/password.validator.js";
+import type { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "./user.dtos.js";
 
 class UserController {
     async create(req: Request, res: Response) {
@@ -10,6 +9,13 @@ class UserController {
 
         const user = await userService.create(data);
         return res.status(200).json(user);
+    }
+
+    async login(req: Request, res: Response) {
+        const data: LoginUserDTO = req.body
+
+        const login = await userService.login(data);
+        return res.status(200).send();
     }
 
     async getAll(req: Request, res: Response) {

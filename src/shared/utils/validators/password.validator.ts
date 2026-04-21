@@ -36,4 +36,17 @@ export class PasswordValidator {
             )
         }
     }
+    static validateLogin(raw: string) {
+        const maxLength = 18;
+
+        if (!raw) {
+            throw new Error(MESSAGES.USER.VALIDATION.PASSWORD_REQUIRED);
+        }
+
+        else if (raw.length > maxLength) {
+            throw new Error(
+                MESSAGES.USER.VALIDATION.PASSWORD_TOO_LONG(maxLength),
+            )
+        }
+    }
 }
