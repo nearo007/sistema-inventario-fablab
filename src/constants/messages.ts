@@ -29,5 +29,8 @@ export const MESSAGES = {
             PASSWORD_TOO_LONG: (num: number) =>
                 `A senha deve ter no máximo ${num} caracteres.`,
         },
+        AUTH: {
+            INCORRECT_CREDENTIALS: "Credenciais inválidas."
+        }
     },
 } as const;

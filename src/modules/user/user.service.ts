@@ -1,5 +1,6 @@
 import { MESSAGES } from "../../constants/messages.js";
 import { prisma } from "../../lib/prisma.js";
+import { TokenService } from "../../shared/services/token.service.js";
 import { Bcrypt } from "../../shared/utils/bcrypt.js";
 import { handlePrismaError } from "../../shared/utils/prisma.js";
 import type {
@@ -39,7 +40,7 @@ class UserService {
             });
 
             if (!user) {
-                throw new Error(MESSAGES.USER.NOT_FOUND.BY_EMAIL);
+                throw new Error(MESSAGES.USER.AUTH.INCORRECT_CREDENTIALS);
             }
 
             const passwordMatch = await Bcrypt.comparePassword(
@@ -48,7 +49,18 @@ class UserService {
             );
 
             if (!passwordMatch) {
-                throw new Error(MESSAGES.USER.CONFLICT.INCORRECT_PASSWORD);
+                throw new Error(MESSAGES.USER.AUTH.INCORRECT_CREDENTIALS);
+            }
+
+            const token = TokenService.generate({id: user.id.toString(), email: user.email})
+
+            return {
+                token,
+                user: {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email
+                }
             }
         } catch (err: any) {
             handlePrismaError(err);

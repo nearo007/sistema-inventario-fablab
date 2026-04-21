@@ -19,10 +19,6 @@ export const handlePrismaError = (err: any): never => {
                 const fields = meta.target || meta.driverAdapterError?.cause?.constraint?.fields;
                 const field = fields?.[0];
 
-                if (field === "name") {
-                    throw new Error(MESSAGES.USER.CONFLICT.NAME_EXISTS);
-                }
-
                 if (field === "email") {
                     throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
                 }

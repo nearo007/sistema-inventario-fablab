@@ -15,7 +15,7 @@ class UserController {
         const data: LoginUserDTO = req.body
 
         const login = await userService.login(data);
-        return res.status(200).send();
+        return res.status(200).json(login);
     }
 
     async getAll(req: Request, res: Response) {
