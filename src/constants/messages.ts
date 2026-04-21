@@ -9,6 +9,7 @@ export const MESSAGES = {
         CONFLICT: {
             USERNAME_EXISTS: "Este nome de usuário já está em uso.",
             EMAIL_EXISTS: "Este e-mail já está cadastrado no sistema.",
+            PASSWORDS_DO_NOT_MATCH: "As senhas não coincidem."
         },
         VALIDATION: {
             USERNAME_REQUIRED: "O usuário é obrigatório",

@@ -8,7 +8,7 @@ import { CreateUserValidator } from "./validators/create-user.validator.js";
 class UserService {
     async create(data: CreateUserDTO) {
         try {
-            const { username, email, password } = data;
+            const { username, email, password, passwordConfirm } = data;
             
             CreateUserValidator.validate(data);
             const passwordHash = await Bcrypt.hashPassword(password);
