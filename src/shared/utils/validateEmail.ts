@@ -1,4 +1,4 @@
-import { MESSAGES } from "../constants/messages.js";
+import { MESSAGES } from "../../constants/messages.js";
 
 export class Email {
     static validate(raw: string) {

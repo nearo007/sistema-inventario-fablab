@@ -1,15 +1,18 @@
-import { MESSAGES } from "../../constants/messages.js";
 import { prisma } from "../../lib/prisma.js";
-import { errorHandler } from "../../middlewares/errorHandler.js";
-import { handlePrismaError } from "../../utils/prisma.js";
+import { Bcrypt } from "../../shared/utils/bcrypt.js";
+import { handlePrismaError } from "../../shared/utils/prisma.js";
 class UserService {
-    async create(data: { name: string; email: string }) {
-        const { name, email } = data;
-
+    async create(data: { name: string; email: string; password: string }) {
         try {
+            const { name, email, password } = data;
+            
+            const passwordHash = await Bcrypt.hashPassword(password);
+            
+            const hashedData = { name, email, passwordHash };
             const user = await prisma.user.create({
-                data,
+                data: hashedData,
             });
+
             return user;
         } catch (err: any) {
             handlePrismaError(err);
@@ -51,3 +54,4 @@ class UserService {
 
 const userService = new UserService();
 export { userService };
+

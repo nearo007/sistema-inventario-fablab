@@ -1,5 +1,5 @@
-import { MESSAGES } from "../constants/messages.js";
-import { Prisma } from "../generated/prisma/client.js";
+import { MESSAGES } from "../../constants/messages.js";
+import { Prisma } from "../../generated/prisma/client.js";
 
 export const handlePrismaError = (err: any): never => {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
