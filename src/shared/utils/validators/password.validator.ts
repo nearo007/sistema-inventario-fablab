@@ -1,9 +1,10 @@
-import { MESSAGES } from "../../constants/messages.js";
+import { MESSAGES } from "../../../constants/messages.js";
 
-export class Password {
+export class PasswordValidator {
     static validate(raw: string) {
-        const minLength = 8;
-        const hasLetterOrNumber = /[A-Za-z0-9]/;
+        const minLength = 6;
+        const maxLength = 18;
+        const hasOneLetterOrNumber = /[A-Za-z0-9]/;
 
         if (!raw) {
             throw new Error(MESSAGES.USER.VALIDATION.PASSWORD_REQUIRED);
@@ -15,7 +16,7 @@ export class Password {
             throw new Error(MESSAGES.USER.VALIDATION.PASSWORD_INVALID);
         }
 
-        if (!hasLetterOrNumber.test(value)) {
+        if (!hasOneLetterOrNumber.test(value)) {
             throw new Error(MESSAGES.USER.VALIDATION.PASSWORD_INVALID);
         }
 
@@ -23,6 +24,12 @@ export class Password {
             throw new Error(
                 MESSAGES.USER.VALIDATION.PASSWORD_TOO_SHORT(minLength),
             );
+        }
+
+        else if (value.length > maxLength) {
+            throw new Error(
+                MESSAGES.USER.VALIDATION.PASSWORD_TOO_LONG(maxLength),
+            )
         }
     }
 }

@@ -1,14 +1,19 @@
 import { prisma } from "../../lib/prisma.js";
 import { Bcrypt } from "../../shared/utils/bcrypt.js";
+import { EmailValidator } from "../../shared/utils/validators/email.validator.js";
+import { PasswordValidator } from "../../shared/utils/validators/password.validator.js";
 import { handlePrismaError } from "../../shared/utils/prisma.js";
+import type { CreateUserDTO, UpdateUserDTO } from "./user.dtos.js";
+import { CreateUserValidator } from "./validators/create-user.validator.js";
 class UserService {
-    async create(data: { name: string; email: string; password: string }) {
+    async create(data: CreateUserDTO) {
         try {
-            const { name, email, password } = data;
+            const { username, email, password } = data;
             
+            CreateUserValidator.validate(data);
             const passwordHash = await Bcrypt.hashPassword(password);
             
-            const hashedData = { name, email, passwordHash };
+            const hashedData = { username, email, passwordHash };
             const user = await prisma.user.create({
                 data: hashedData,
             });
@@ -28,7 +33,7 @@ class UserService {
         }
     }
 
-    async updateById(id: number, data: { name?: string; email?: string }) {
+    async updateById(id: number, data: UpdateUserDTO) {
         try {
             const user = await prisma.user.update({
                 where: { id },
