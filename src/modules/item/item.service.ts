@@ -1,33 +1,51 @@
 import { prisma } from "../../lib/prisma.js";
+import { handlePrismaError } from "../../shared/utils/prisma.js";
+import type { CreateItemDTO, UpdateItemDTO } from "./item.dtos.js";
 
 class ItemService {
-    async create(data: {name: string, category?: string, totalQuantity: number, location: string}) {
-        const item = await prisma.item.create({
-            data
-        });
-        return item;
-    };
-    
-    async getAll() {
-        const items = await prisma.item.findMany();
-        return items;
-    };
+    async create(data: CreateItemDTO) {
+        try {
+            const item = await prisma.item.create({
+                data,
+            });
+            return item;
+        } catch (err: any) {
+            handlePrismaError(err);
+        }
+    }
 
-    async updateById(id: number, data: {name?: string, category?: string, totalQuantity?: number, location?: string}) {
-        const item = await prisma.item.update({
-            where: {id},
-            data
-        });
-        return item;
+    async getAll() {
+        try {
+            const items = await prisma.item.findMany();
+            return items;
+        } catch (err: any) {
+            handlePrismaError(err);
+        }
+    }
+
+    async updateById(id: number, data: UpdateItemDTO) {
+        try {
+            const item = await prisma.item.update({
+                where: { id },
+                data,
+            });
+            return item;
+        } catch (err: any) {
+            handlePrismaError(err);
+        }
     }
 
     async deleteById(id: number) {
-        const item = await prisma.item.delete({
-            where: {id}
-        });
-        return item;
+        try {
+            const item = await prisma.item.delete({
+                where: { id },
+            });
+            return item;
+        } catch (err: any) {
+            handlePrismaError(err);
+        }
     }
-};
+}
 
 const itemService = new ItemService();
 export { itemService };

@@ -1,21 +1,12 @@
 import type { Request, Response } from 'express';
 import { itemService } from './item.service.js';
+import type { CreateItemDTO, UpdateItemDTO } from './item.dtos.js';
 
 class ItemController {
     async create(req: Request, res: Response) {
-        const {
-            name,
-            category,
-            totalQuantity,
-            location
-        } = req.body;
+        const data: CreateItemDTO = req.body;
 
-        const item = await itemService.create({
-            name,
-            category,
-            totalQuantity,
-            location
-        });
+        const item = await itemService.create(data);
         return res.status(200).json(item);
     };
 
@@ -26,19 +17,9 @@ class ItemController {
 
     async updateById(req: Request, res: Response) {
         const itemId = Number(req.params.id);
-        const {
-            name,
-            category,
-            totalQuantity,
-            location
-        } = req.body;
+        const data: UpdateItemDTO = req.body;
 
-        const item = await itemService.updateById(itemId, {
-            name,
-            category,
-            totalQuantity,
-            location
-        });
+        const item = await itemService.updateById(itemId, data);
         return res.status(200).json(item);
     }
 
