@@ -1,10 +1,12 @@
 import { prisma } from "../../lib/prisma.js";
 import { handlePrismaError } from "../../shared/utils/prisma.js";
 import type { CreateItemDTO, UpdateItemDTO } from "./item.dtos.js";
+import { CreateItemValidator } from "./validators/create-item.validator.js";
 
 class ItemService {
     async create(data: CreateItemDTO) {
         try {
+            CreateItemValidator.validate(data);
             const item = await prisma.item.create({
                 data,
             });

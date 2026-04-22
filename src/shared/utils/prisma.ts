@@ -27,6 +27,8 @@ export const handlePrismaError = (err: any): never => {
             }
             case "P2025":
                 throw new Error(MESSAGES.USER.NOT_FOUND.GENERAL);
+            case "P2020":
+                throw new Error(MESSAGES.ITEM.VALIDATION.QUANTITY_INVALID);
             default:
                 throw new Error(`Erro de banco de dados: ${err.code}`);
         }
