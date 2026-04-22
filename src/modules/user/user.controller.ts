@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { EmailValidator } from "../../shared/utils/validators/email.validator.js";
 import { userService } from "./user.service.js";
 import type { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "./user.dtos.js";
+import { UsernameValidator } from "../../shared/utils/validators/username.validator.js";
 
 class UserController {
     async create(req: Request, res: Response) {
@@ -28,6 +29,7 @@ class UserController {
         const data: UpdateUserDTO = req.body;
 
         if (data.email) EmailValidator.validate(data.email);
+        if (data.name) UsernameValidator.validate(data.name);
 
         const user = await userService.updateById(userId, data);
         return res.status(200).json(user);

@@ -1,16 +1,15 @@
 import { prisma } from "../../lib/prisma.js";
+import type { CreateLoanDTO } from "./loan.dtos.js";
 
 class LoanService {
-    async create(
-        userId: number,
-        itemId: number,
-        data: { loanDate: Date; dueDate: Date; returnDate?: Date | null },
-    ) {
+    async create(data: CreateLoanDTO) {
         const loan = await prisma.loan.create({
             data: {
-                user: { connect: { id: userId } },
-                item: { connect: { id: itemId } },
-                ...data,
+                loanDate: new Date(data.loanDate),
+                dueDate: new Date(data.dueDate),
+                returnDate: data.returnDate ? new Date(data.returnDate) : null,
+                userId: data.userId,
+                itemId: data.itemId,
             },
         });
         return loan;

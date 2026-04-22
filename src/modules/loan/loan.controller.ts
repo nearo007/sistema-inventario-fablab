@@ -1,17 +1,12 @@
 import type { Request, Response } from "express";
 import { loanService } from "./loan.service.js";
-import type { CreateLoanDTO } from "./dtos/CreateLoanDTO.js";
-import type { UpdateLoanDTO } from "./dtos/UpdateLoanDTO.js";
+import type { CreateLoanDTO, UpdateLoanDTO } from "./loan.dtos.js";
 
 class LoanController {
     async create(req: Request, res: Response) {
         const data: CreateLoanDTO = req.body;
 
-        const loan = await loanService.create(data.userId, data.itemId, {
-            loanDate: new Date(data.loanDate),
-            dueDate: new Date(data.dueDate),
-            returnDate: data.returnDate ? new Date(data.returnDate) : null,
-        });
+        const loan = await loanService.create(data);
         return res.json(loan);
     }
 
@@ -38,10 +33,8 @@ class LoanController {
             updateData.dueDate = new Date(data.dueDate);
         }
 
-        if (data.returnDate !== undefined) {
-            updateData.returnDate = data.returnDate
-                ? new Date(data.returnDate)
-                : null;
+        if (data.returnDate) {
+            updateData.returnDate = new Date(data.returnDate);
         }
 
         const loan = await loanService.updateById(loanId, updateData);
