@@ -9,7 +9,6 @@
       "@shared/*": ["./src/shared/*"],
       "@lib/*": ["./src/lib/*"],
       "@middlewares/*": ["./src/middlewares/*"],
-      "@generated/*": ["./src/generated/*"],
       "@modules/*": ["./src/modules/*"],
     },
     // Environment Settings
