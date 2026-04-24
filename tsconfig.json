@@ -10,9 +10,7 @@
       "@lib/*": ["./src/lib/*"],
       "@middlewares/*": ["./src/middlewares/*"],
       "@generated/*": ["./src/generated/*"],
-      "@user/*": ["./src/modules/user/*"],
-      "@item/*": ["./src/modules/item/*"],
-      "@loan/*": ["./src/modules/loan/*"]
+      "@modules/*": ["./src/modules/*"],
     },
     // Environment Settings
     // See also https://aka.ms/tsconfig/module

@@ -1,6 +1,6 @@
 import { prisma } from "@lib/prisma.js";
 import { handlePrismaError } from "@shared/utils/prisma.js";
-import type { CreateLoanDTO } from "@loan/loan.dtos.js";
+import type { CreateLoanDTO } from "@modules/loan/loan.dtos.js";
 
 class LoanService {
     async create(data: CreateLoanDTO) {

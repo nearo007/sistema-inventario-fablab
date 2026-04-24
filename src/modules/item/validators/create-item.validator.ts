@@ -1,5 +1,5 @@
 import { MESSAGES } from "@src/constants/messages.js";
-import type { CreateItemDTO } from "@item/item.dtos.js";
+import type { CreateItemDTO } from "@modules/item/item.dtos.js";
 
 export class CreateItemValidator {
     static validate(data: CreateItemDTO) {

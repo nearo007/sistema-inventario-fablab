@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { EmailValidator } from "@shared/utils/validators/email.validator.js";
-import { userService } from "@user/user.service.js";
-import type { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "@user/user.dtos.js";
+import { userService } from "@modules/user/user.service.js";
+import type { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "@modules/user/user.dtos.js";
 import { UsernameValidator } from "@shared/utils/validators/username.validator.js";
 
 class UserController {

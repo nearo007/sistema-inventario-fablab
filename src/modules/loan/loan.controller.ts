@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import { loanService } from "@loan/loan.service.js";
-import type { CreateLoanDTO, UpdateLoanDTO } from "@loan/loan.dtos.js";
+import { loanService } from "@modules/loan/loan.service.js";
+import type { CreateLoanDTO, UpdateLoanDTO } from "@modules/loan/loan.dtos.js";
 
 class LoanController {
     async create(req: Request, res: Response) {
