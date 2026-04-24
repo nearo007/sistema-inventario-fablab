@@ -1,15 +1,15 @@
-import { MESSAGES } from "../../constants/messages.js";
-import { prisma } from "../../lib/prisma.js";
-import { TokenService } from "../../shared/services/token.service.js";
-import { Bcrypt } from "../../shared/utils/bcrypt.js";
-import { handlePrismaError } from "../../shared/utils/prisma.js";
+import { MESSAGES } from "@src/constants/messages.js";
+import { prisma } from "@lib/prisma.js";
+import { Bcrypt } from "@shared/utils/bcrypt.js";
+import { handlePrismaError } from "@shared/utils/prisma.js";
 import type {
     CreateUserDTO,
     LoginUserDTO,
     UpdateUserDTO,
-} from "./user.dtos.js";
-import { CreateUserValidator } from "./validators/create-user.validator.js";
-import { LoginUserValidator } from "./validators/login-user.validator.js";
+} from "@user/user.dtos.js";
+import { CreateUserValidator } from "@user/validators/create-user.validator.js";
+import { LoginUserValidator } from "@user/validators/login-user.validator.js";
+import { TokenService } from "@shared/services/token.service.js";
 class UserService {
     async create(data: CreateUserDTO) {
         try {

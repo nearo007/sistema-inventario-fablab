@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { itemService } from './item.service.js';
-import type { CreateItemDTO, UpdateItemDTO } from './item.dtos.js';
+import { itemService } from '@item/item.service.js';
+import type { CreateItemDTO, UpdateItemDTO } from '@item/item.dtos.js';
 
 class ItemController {
     async create(req: Request, res: Response) {

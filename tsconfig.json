@@ -4,7 +4,16 @@
     // File Layout
     // "rootDir": "./src",
     // "outDir": "./dist",
-
+    "paths": {
+      "@src/*": ["./src/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@generated/*": ["./src/generated/*"],
+      "@user/*": ["./src/modules/user/*"],
+      "@item/*": ["./src/modules/item/*"],
+      "@loan/*": ["./src/modules/loan/*"]
+    },
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",

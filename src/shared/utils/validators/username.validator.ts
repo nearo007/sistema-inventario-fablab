@@ -1,4 +1,4 @@
-import { MESSAGES } from "../../../constants/messages.js";
+import { MESSAGES } from "@src/constants/messages.js";
 
 export class UsernameValidator {
     static validate(raw: string) {

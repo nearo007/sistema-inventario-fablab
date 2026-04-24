@@ -1,23 +1,33 @@
-import { prisma } from "../../lib/prisma.js";
-import type { CreateLoanDTO } from "./loan.dtos.js";
+import { prisma } from "@lib/prisma.js";
+import { handlePrismaError } from "@shared/utils/prisma.js";
+import type { CreateLoanDTO } from "@loan/loan.dtos.js";
 
 class LoanService {
     async create(data: CreateLoanDTO) {
-        const loan = await prisma.loan.create({
-            data: {
-                loanDate: new Date(data.loanDate),
-                dueDate: new Date(data.dueDate),
-                returnDate: data.returnDate ? new Date(data.returnDate) : null,
-                userId: data.userId,
-                itemId: data.itemId,
-            },
-        });
-        return loan;
+        try {
+            const loan = await prisma.loan.create({
+                data: {
+                    loanDate: new Date(data.loanDate),
+                    dueDate: new Date(data.dueDate),
+                    returnDate: data.returnDate ? new Date(data.returnDate) : null,
+                    loanQuantity: data.loanQuantity,
+                    userId: data.userId,
+                    itemId: data.itemId,
+                },
+            });
+            return loan;
+        } catch (err:any) {
+            handlePrismaError(err);
+        }
     }
 
     async getAll() {
-        const loans = await prisma.loan.findMany();
-        return loans;
+        try {
+            const loans = await prisma.loan.findMany();
+            return loans;
+        } catch (err:any) {
+            handlePrismaError(err);
+        }
     }
 
     async updateById(
@@ -28,16 +38,24 @@ class LoanService {
             returnDate?: Date | null;
         },
     ) {
-        return prisma.loan.update({
-            where: { id },
-            data,
-        });
+        try {
+            return prisma.loan.update({
+                where: { id },
+                data,
+            });
+        } catch (err:any) {
+            handlePrismaError(err);
+        }
     }
 
     async deleteById(id: number) {
-        await prisma.loan.delete({
-            where: { id },
-        });
+        try {
+            await prisma.loan.delete({
+                where: { id },
+            });
+        } catch (err:any) {
+            handlePrismaError(err);
+        }
     }
 }
 

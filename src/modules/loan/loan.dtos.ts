@@ -3,6 +3,7 @@ export type CreateLoanDTO = {
     itemId: number;
     loanDate: string;
     dueDate: string;
+    loanQuantity: number;
     returnDate?: string;
 };
 
