@@ -1,7 +1,7 @@
 import { MESSAGES } from "@src/constants/messages.js";
 
 export class PasswordValidator {
-    static validate(raw: string, passwordConfirm: string) {
+    static validateWithConfirmation(raw: string, passwordConfirm: string) {
         const minLength = 6;
         const maxLength = 18;
         const hasOneLetterOrNumber = /[A-Za-z0-9]/;
@@ -36,7 +36,7 @@ export class PasswordValidator {
             )
         }
     }
-    static validateLogin(raw: string) {
+    static validate(raw: string) {
         const maxLength = 18;
 
         if (!raw) {

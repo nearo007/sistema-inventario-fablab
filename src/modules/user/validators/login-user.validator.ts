@@ -5,7 +5,7 @@ import type { LoginUserDTO } from "@modules/user/user.dtos.js";
 export class LoginUserValidator {
     static validate(data: LoginUserDTO) {
         EmailValidator.validate(data.email);
-        PasswordValidator.validateLogin(data.password);
+        PasswordValidator.validate(data.password);
     }
 }
 

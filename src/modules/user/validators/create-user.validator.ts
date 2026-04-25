@@ -7,6 +7,6 @@ export class CreateUserValidator {
     static validate(data: CreateUserDTO) {
         EmailValidator.validate(data.email);
         UsernameValidator.validate(data.username);
-        PasswordValidator.validate(data.password, data.passwordConfirm);
+        PasswordValidator.validateWithConfirmation(data.password, data.passwordConfirm);
     }
 }

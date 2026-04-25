@@ -6,10 +6,12 @@ import type {
     CreateUserDTO,
     LoginUserDTO,
     UpdateUserDTO,
+    UpdateUserPasswordDTO,
 } from "@modules/user/user.dtos.js";
 import { CreateUserValidator } from "@modules/user/validators/create-user.validator.js";
 import { LoginUserValidator } from "@modules/user/validators/login-user.validator.js";
 import { TokenService } from "@shared/services/token.service.js";
+import { PasswordValidator } from "@src/shared/utils/validators/password.validator.js";
 class UserService {
     async create(data: CreateUserDTO) {
         try {
@@ -84,6 +86,15 @@ class UserService {
             });
             return user;
         } catch (err: any) {
+            handlePrismaError(err);
+        }
+    }
+
+    async updatePasswordById(id: number, data: UpdateUserPasswordDTO) {
+        try {
+            PasswordValidator.validate(data.password);
+            
+        } catch (err:any) {
             handlePrismaError(err);
         }
     }
