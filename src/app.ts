@@ -5,6 +5,7 @@ import { errorHandler } from '@middlewares/errorHandler.js';
 import { userRouter } from '@modules/user/user.routes.js';
 import { itemRouter } from '@modules/item/item.routes.js';
 import { loanRouter } from '@modules/loan/loan.routes.js';
+import { authRouter } from '@modules/auth/auth.routes.js';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json())
 app.use('/u', userRouter);
 app.use('/i', itemRouter);
 app.use('/l', loanRouter);
+app.use('/auth', authRouter);
 
 app.use(errorHandler);
 

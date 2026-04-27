@@ -1,13 +1,19 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-const JWT_EXPIRES_IN = "1h";
-
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN as any; 
+const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN as any;
 export class TokenService {
-    static generate(payload: { id: string; email: string }) {
-        return jwt.sign(payload, JWT_SECRET, {
+    static generate(data: {userId: string}) {
+        const accessToken = jwt.sign({ sub: data.userId }, JWT_SECRET, {
             expiresIn: JWT_EXPIRES_IN,
         });
+
+        const refreshToken = jwt.sign({ sub: data.userId }, JWT_SECRET, {
+            expiresIn: JWT_REFRESH_EXPIRES_IN,
+        });
+
+        return { accessToken, refreshToken };
     }
 
     static verify(token: string) {
