@@ -1,7 +1,7 @@
 import { TokenService } from "@src/shared/services/token.service.js";
 import type { Request, Response, NextFunction } from "express";
 
-function authMiddleware(req: Request, res: Response, next: NextFunction) {
+export function authMiddleware(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
