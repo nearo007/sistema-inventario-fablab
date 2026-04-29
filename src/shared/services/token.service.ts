@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
+const JWT_SECRET_REFRESH = process.env.JWT_SECRET_REFRESH!;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN as any; 
 const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN as any;
 export class TokenService {
@@ -9,7 +10,7 @@ export class TokenService {
             expiresIn: JWT_EXPIRES_IN,
         });
 
-        const refreshToken = jwt.sign({ sub: data.userId }, JWT_SECRET, {
+        const refreshToken = jwt.sign({ sub: data.userId }, JWT_SECRET_REFRESH, {
             expiresIn: JWT_REFRESH_EXPIRES_IN,
         });
 

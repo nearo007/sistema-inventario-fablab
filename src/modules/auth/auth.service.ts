@@ -30,14 +30,50 @@ class AuthService {
                 throw new Error(MESSAGES.USER.AUTH.INCORRECT_CREDENTIALS);
             }
 
-            const { accessToken, refreshToken } = TokenService.generate({
+            const tokens = TokenService.generate({
                 userId: user.id.toString(),
             });
 
-            return {
-                accessToken,
-                refreshToken,
-            };
+            return tokens;
+        } catch (err: any) {
+            handlePrismaError(err);
+        }
+    }
+
+    async refresh(refreshToken: string) {
+        try {
+            if (!refreshToken) {
+                throw new Error("Refresh token ausente");
+            }
+
+            let payload: any;
+
+            try {
+                payload = TokenService.verify(refreshToken);
+            } catch {
+                throw new Error("Refresh token inválido ou expirado");
+            }
+
+            const userId =
+                typeof payload.sub === "string" ? payload.sub : undefined;
+
+            if (!userId) {
+                throw new Error("Token inválido");
+            }
+
+            const user = await prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (!user) {
+                throw new Error("Usuário não encontrado");
+            }
+
+            const tokens = TokenService.generate({
+                userId,
+            });
+
+            return tokens;
         } catch (err: any) {
             handlePrismaError(err);
         }

@@ -6,8 +6,15 @@ class AuthController {
     async login(req: Request, res: Response) {
         const data: LoginDTO = req.body;
 
-        const login = await authService.login(data);
-        return res.status(200).json(login);
+        const tokens = await authService.login(data);
+        return res.status(200).json(tokens);
+    }
+
+    async refresh(req: Request, res: Response) {
+        const { refreshToken } = req.body;
+
+        const newTokens = await authService.refresh(refreshToken);
+        return res.status(200).json(newTokens);
     }
 }
 
