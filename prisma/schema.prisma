@@ -18,6 +18,23 @@ model User {
   username String
   passwordHash String
   loans Loan[]
+  tokens AuthToken[]
+}
+
+model AuthToken {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  refreshTokenHash String
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  revoked Boolean @default(false)
+
+  @@index([userId])
 }
 
 model Item {

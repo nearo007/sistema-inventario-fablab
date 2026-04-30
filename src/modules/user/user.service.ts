@@ -4,13 +4,10 @@ import { Bcrypt } from "@shared/utils/bcrypt.js";
 import { handlePrismaError } from "@shared/utils/prisma.js";
 import type {
     CreateUserDTO,
-    LoginUserDTO,
     UpdateUserDTO,
     UpdateUserPasswordDTO,
 } from "@modules/user/user.dtos.js";
 import { CreateUserValidator } from "@modules/user/validators/create-user.validator.js";
-import { LoginUserValidator } from "@modules/user/validators/login-user.validator.js";
-import { TokenService } from "@shared/services/token.service.js";
 import { PasswordValidator } from "@src/shared/utils/validators/password.validator.js";
 class UserService {
     async create(data: CreateUserDTO) {
@@ -26,44 +23,6 @@ class UserService {
             });
 
             return user;
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
-    }
-
-    async login(data: LoginUserDTO) {
-        try {
-            const { email, password } = data;
-
-            LoginUserValidator.validate(data);
-
-            const user = await prisma.user.findFirst({
-                where: { email },
-            });
-
-            if (!user) {
-                throw new Error(MESSAGES.USER.AUTH.INCORRECT_CREDENTIALS);
-            }
-
-            const passwordMatch = await Bcrypt.comparePassword(
-                password,
-                user.passwordHash,
-            );
-
-            if (!passwordMatch) {
-                throw new Error(MESSAGES.USER.AUTH.INCORRECT_CREDENTIALS);
-            }
-
-            const token = TokenService.generate({id: user.id.toString(), email: user.email})
-
-            return {
-                token,
-                user: {
-                    id: user.id,
-                    username: user.username,
-                    email: user.email
-                }
-            }
         } catch (err: any) {
             handlePrismaError(err);
         }
@@ -93,8 +52,7 @@ class UserService {
     async updatePasswordById(id: number, data: UpdateUserPasswordDTO) {
         try {
             PasswordValidator.validate(data.password);
-            
-        } catch (err:any) {
+        } catch (err: any) {
             handlePrismaError(err);
         }
     }
