@@ -11,9 +11,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json())
-app.use('/u', userRouter);
-app.use('/i', itemRouter);
-app.use('/l', loanRouter);
+app.use('/user', userRouter);
+app.use('/item', itemRouter);
+app.use('/loan', loanRouter);
 app.use('/auth', authRouter);
 
 app.use(errorHandler);
