@@ -110,17 +110,17 @@ src/
 
 3. **Configure as variáveis de ambiente:**
    
-   Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+   Crie um arquivo `.env` na raiz do projeto com base nas variáveis do .env.example:
    ```env
-   PORT=1727
-   DATABASE_URL="postgresql://admin:nearo@localhost:5432/meu-banco"
-   POSTGRES_USER="admin"
-   POSTGRES_PASSWORD="nearo"
-   POSTGRES_DB="meu-banco"
+   PORT=3000
+   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/app_db"
+   POSTGRES_USER="postgres"
+   POSTGRES_PASSWORD="postgres"
+   POSTGRES_DB="app_db"
 
-   JWT_SECRET="your-secret-key"
-   JWT_SECRET_REFRESH="your-refresh-secret"
-   JWT_EXPIRES_IN="5s"
+   JWT_SECRET="dev_secret_key"
+   JWT_SECRET_REFRESH="dev_refresh_secret_key"
+   JWT_EXPIRES_IN="15m"
    JWT_REFRESH_EXPIRES_IN="7d"
    ```
 
