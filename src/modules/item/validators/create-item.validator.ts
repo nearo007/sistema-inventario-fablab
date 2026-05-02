@@ -1,5 +1,6 @@
 import { MESSAGES } from "@src/constants/messages.js";
 import type { CreateItemDTO } from "@modules/item/item.dtos.js";
+import { QuantityValidator } from "@src/shared/utils/validators/quantity.validator.js";
 
 export class CreateItemValidator {
     static validate(data: CreateItemDTO) {
@@ -31,17 +32,7 @@ export class CreateItemValidator {
             }
         }
 
-        if (totalQuantity === null || totalQuantity === undefined) {
-            throw new Error(MESSAGES.ITEM.VALIDATION.QUANTITY_REQUIRED);
-        }
-
-        if (!Number.isFinite(totalQuantity)) {
-            throw new Error(MESSAGES.ITEM.VALIDATION.QUANTITY_INVALID);
-        }
-
-        if (totalQuantity < 0) {
-            throw new Error(MESSAGES.ITEM.VALIDATION.QUANTITY_NEGATIVE);
-        }
+        QuantityValidator.validate(totalQuantity);
 
         if (!location) {
             throw new Error(MESSAGES.ITEM.VALIDATION.LOCATION_REQUIRED);

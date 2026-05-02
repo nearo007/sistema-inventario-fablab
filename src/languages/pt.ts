@@ -4,14 +4,13 @@ export const PT_MESSAGES = {
             GENERAL: "Nenhum usuário cadastrado.",
             BY_ID: "Não foi possível encontrar um usuário com esse ID.",
             BY_USERNAME:
-                "Não foi possível encontrar um usuário com esse usuário.",
+                "Não foi possível encontrar o usuário.",
             BY_EMAIL: "Não foi possível encontrar um usuário com esse email.",
         },
         CONFLICT: {
             USERNAME_EXISTS: "Este nome de usuário já está em uso.",
             EMAIL_EXISTS: "Este e-mail já está cadastrado no sistema.",
             PASSWORDS_DO_NOT_MATCH: "As senhas não coincidem.",
-            INCORRECT_PASSWORD: "Senha incorreta.",
         },
         VALIDATION: {
             USERNAME_REQUIRED: "O usuário é obrigatório",
@@ -45,13 +44,27 @@ export const PT_MESSAGES = {
             CATEGORY_TOO_LONG: (num: number) =>
                 `A categoria deve ter no máximo ${num} caracteres.`,
 
-            QUANTITY_REQUIRED: "A quantidade total é obrigatória.",
-            QUANTITY_INVALID: "A quantidade deve ser um número válido.",
-            QUANTITY_NEGATIVE: "A quantidade não pode ser negativa.",
-
             LOCATION_REQUIRED: "A localização é obrigatória.",
             LOCATION_TOO_LONG: (num: number) =>
                 `A localização deve ter no máximo ${num} caracteres.`,
         },
+    },
+    SHARED: {
+        VALIDATION: {
+            QUANTITY_REQUIRED: "A quantidade é obrigatória.",
+            QUANTITY_INVALID: "A quantidade deve ser um número válido.",
+            QUANTITY_NEGATIVE: "A quantidade não pode ser negativa.",
+            QUANTITY_TOO_LOW: (min: number) => `A quantidade mínima é ${min}.`,
+            QUANTITY_TOO_HIGH: (max: number) => `A quantidade máxima é ${max}.`,
+            REQUIRED_FIELD: (fieldName: string) => `O campo ${fieldName} é obrigatório(a).`,
+            INVALID_FIELD: (fieldName: string) => `O campo ${fieldName} é inválido(a).`,
+        },
+    },
+    FIELDS: {
+        ID: "ID",
+        DATE: "Data",
+        RETURN_DATE: "Data de Devolução",
+        LOAN_DATE: "Data de Empréstimo",
+        DUE_DATE: "Data de Vencimento",
     },
 } as const;
