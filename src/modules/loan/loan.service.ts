@@ -1,10 +1,13 @@
 import { prisma } from "@lib/prisma.js";
 import { handlePrismaError } from "@shared/utils/prisma.js";
 import type { CreateLoanDTO } from "@modules/loan/loan.dtos.js";
+import { CreateLoanValidator } from "./input-validation/create-loan.validator.js";
 
 class LoanService {
     async create(data: CreateLoanDTO) {
         try {
+            CreateLoanValidator.validate(data);
+
             const loan = await prisma.loan.create({
                 data: {
                     loanDate: new Date(data.loanDate),

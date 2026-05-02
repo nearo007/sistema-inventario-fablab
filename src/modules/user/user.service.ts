@@ -7,7 +7,7 @@ import type {
     UpdateUserDTO,
     UpdateUserPasswordDTO,
 } from "@modules/user/user.dtos.js";
-import { CreateUserValidator } from "@modules/user/validators/create-user.validator.js";
+import { CreateUserValidator } from "@src/modules/user/input-validation/create-user.validator.js";
 import { PasswordValidator } from "@src/shared/utils/validators/password.validator.js";
 class UserService {
     async create(data: CreateUserDTO) {

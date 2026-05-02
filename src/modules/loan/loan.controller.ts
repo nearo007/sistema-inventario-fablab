@@ -5,7 +5,7 @@ import type { CreateLoanDTO, UpdateLoanDTO } from "@modules/loan/loan.dtos.js";
 class LoanController {
     async create(req: Request, res: Response) {
         const data: CreateLoanDTO = req.body;
-
+        
         const loan = await loanService.create(data);
         return res.json(loan);
     }

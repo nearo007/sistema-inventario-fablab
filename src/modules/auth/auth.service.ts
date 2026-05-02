@@ -1,6 +1,6 @@
 import type { LoginDTO } from "@modules/auth/auth.dtos.js";
 import { handlePrismaError } from "@src/shared/utils/prisma.js";
-import { LoginValidator } from "@modules/auth/validators/login.validator.js";
+import { LoginValidator } from "@src/modules/auth/input-validation/login.validator.js";
 import { prisma } from "@src/lib/prisma.js";
 import { MESSAGES } from "@src/constants/messages.js";
 import { Bcrypt } from "@src/shared/utils/bcrypt.js";
