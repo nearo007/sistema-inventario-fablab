@@ -30,6 +30,10 @@ export const PT_MESSAGES = {
         },
         AUTH: {
             INCORRECT_CREDENTIALS: "Credenciais inválidas.",
+            TOKEN: {
+                NOT_FOUND: "Token ausente.",
+                INVALID_OR_EXPIRED: "Token inválido ou expirado."
+            }
         },
     },
 
