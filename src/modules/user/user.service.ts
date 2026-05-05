@@ -11,61 +11,47 @@ import { CreateUserValidator } from "@src/modules/user/input-validation/create-u
 import { PasswordValidator } from "@src/shared/utils/validators/password.validator.js";
 class UserService {
     async create(data: CreateUserDTO) {
-        try {
-            const { username, email, password, passwordConfirm } = data;
+        const { username, email, password } = data;
 
-            CreateUserValidator.validate(data);
-            const passwordHash = await Bcrypt.hashPassword(password);
+        CreateUserValidator.validate(data);
 
-            const hashedData = { username, email, passwordHash };
-            const user = await prisma.user.create({
-                data: hashedData,
-            });
+        const passwordHash = await Bcrypt.hashPassword(password);
 
-            return user;
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
+        const hashedData = { username, email, passwordHash };
+
+        const user = await prisma.user.create({
+            data: hashedData,
+        });
+
+        return user;
     }
 
     async getAll() {
-        try {
-            const allUsers = await prisma.user.findMany();
-            return allUsers;
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
+        const allUsers = await prisma.user.findMany();
+        return allUsers;
     }
 
     async updateById(id: number, data: UpdateUserDTO) {
-        try {
-            const user = await prisma.user.update({
-                where: { id },
-                data,
-            });
-            return user;
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
+        const user = await prisma.user.update({
+            where: { id },
+            data,
+        });
+
+        return user;
     }
 
     async updatePasswordById(id: number, data: UpdateUserPasswordDTO) {
-        try {
-            PasswordValidator.validate(data.password);
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
+        PasswordValidator.validate(data.password);
+
+        return;
     }
 
     async deleteById(id: number) {
-        try {
-            const user = await prisma.user.delete({
-                where: { id },
-            });
-            return user;
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
+        const user = await prisma.user.delete({
+            where: { id },
+        });
+
+        return user;
     }
 }
 

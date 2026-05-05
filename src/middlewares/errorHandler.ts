@@ -1,14 +1,19 @@
-import type { Request, Response, NextFunction } from 'express';
+import { handlePrismaError } from "@src/shared/utils/prisma.js";
+import type { Request, Response, NextFunction } from "express";
 
 export function errorHandler(
     err: Error,
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
 ) {
-    if (err instanceof Error) {
-        return res.status(400).json({ errorMessage: err.message });
-    }
+    try {
+        handlePrismaError(err);
+    } catch (e) {
+        if (err instanceof Error) {
+            return res.status(400).json({ errorMessage: err.message });
+        }
 
-    return res.status(500).json({ errorMessage: "Erro interno" })
+        return res.status(500).json({ errorMessage: "Erro interno" });
+    }
 }

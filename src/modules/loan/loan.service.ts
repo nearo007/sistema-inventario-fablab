@@ -5,32 +5,25 @@ import { CreateLoanValidator } from "./input-validation/create-loan.validator.js
 
 class LoanService {
     async create(data: CreateLoanDTO) {
-        try {
-            CreateLoanValidator.validate(data);
+        CreateLoanValidator.validate(data);
 
-            const loan = await prisma.loan.create({
-                data: {
-                    loanDate: new Date(data.loanDate),
-                    dueDate: new Date(data.dueDate),
-                    returnDate: data.returnDate ? new Date(data.returnDate) : null,
-                    loanQuantity: data.loanQuantity,
-                    userId: data.userId,
-                    itemId: data.itemId,
-                },
-            });
-            return loan;
-        } catch (err:any) {
-            handlePrismaError(err);
-        }
+        const loan = await prisma.loan.create({
+            data: {
+                loanDate: new Date(data.loanDate),
+                dueDate: new Date(data.dueDate),
+                returnDate: data.returnDate ? new Date(data.returnDate) : null,
+                loanQuantity: data.loanQuantity,
+                userId: data.userId,
+                itemId: data.itemId,
+            },
+        });
+
+        return loan;
     }
 
     async getAll() {
-        try {
-            const loans = await prisma.loan.findMany();
-            return loans;
-        } catch (err:any) {
-            handlePrismaError(err);
-        }
+        const loans = await prisma.loan.findMany();
+        return loans;
     }
 
     async updateById(
@@ -41,24 +34,20 @@ class LoanService {
             returnDate?: Date | null;
         },
     ) {
-        try {
-            return prisma.loan.update({
-                where: { id },
-                data,
-            });
-        } catch (err:any) {
-            handlePrismaError(err);
-        }
+        const loan = await prisma.loan.update({
+            where: { id },
+            data,
+        });
+
+        return loan;
     }
 
     async deleteById(id: number) {
-        try {
-            await prisma.loan.delete({
-                where: { id },
-            });
-        } catch (err:any) {
-            handlePrismaError(err);
-        }
+        const loan = await prisma.loan.delete({
+            where: { id },
+        });
+
+        return loan;
     }
 }
 
