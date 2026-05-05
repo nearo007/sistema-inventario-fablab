@@ -16,19 +16,21 @@ export const handlePrismaError = (err: any): never => {
                     target?: string[];
                 };
 
-                const fields = meta.target || meta.driverAdapterError?.cause?.constraint?.fields;
+                const fields =
+                    meta.target ||
+                    meta.driverAdapterError?.cause?.constraint?.fields;
                 const field = fields?.[0];
 
                 if (field === "email") {
                     throw new Error(MESSAGES.USER.CONFLICT.EMAIL_EXISTS);
                 }
-                
+
                 throw new Error("Conflito de restrição única.");
             }
             case "P2025":
                 throw new Error(MESSAGES.USER.NOT_FOUND.GENERAL);
             case "P2020":
-                throw new Error(MESSAGES.ITEM.VALIDATION.QUANTITY_INVALID);
+                throw new Error(MESSAGES.SHARED.VALIDATION.QUANTITY_INVALID);
             default:
                 throw new Error(`Erro de banco de dados: ${err.code}`);
         }
