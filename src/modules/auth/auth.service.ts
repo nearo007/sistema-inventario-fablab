@@ -1,11 +1,11 @@
 import type { LoginDTO } from "@modules/auth/auth.dtos.js";
-import { handlePrismaError } from "@src/shared/utils/prisma.js";
-import { LoginValidator } from "@src/modules/auth/input-validation/login.validator.js";
-import { prisma } from "@src/lib/prisma.js";
 import { MESSAGES } from "@src/constants/messages.js";
-import { Bcrypt } from "@src/shared/utils/bcrypt.js";
+import { prisma } from "@src/lib/prisma.js";
+import { LoginValidator } from "@src/modules/auth/input-validation/login.validator.js";
 import { TokenService } from "@src/shared/services/token.service.js";
+import { Bcrypt } from "@src/shared/utils/bcrypt.js";
 import { Crypto } from "@src/shared/utils/crypto.js";
+import { Prisma } from "@src/generated/prisma/client.js";
 
 class AuthService {
     async login(data: LoginDTO) {
@@ -68,22 +68,28 @@ class AuthService {
             userId: token.userId.toString(),
         });
 
-        const result = await prisma.$transaction(async (tx) => {
-            const revokedToken = await tx.authToken.update({
-                where: { id: token.id },
-                data: { revoked: true },
-            });
+        const result = await prisma.$transaction(
+            async (tx: Prisma.TransactionClient) => {
+                const revokedToken = await tx.authToken.update({
+                    where: { id: token.id },
+                    data: { revoked: true },
+                });
 
-            const newAuthToken = await tx.authToken.create({
-                data: {
-                    userId: token.userId,
-                    refreshTokenHash: Crypto.hashToken(newTokens.refreshToken),
-                    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // TODO: move to env
-                },
-            });
+                const newAuthToken = await tx.authToken.create({
+                    data: {
+                        userId: token.userId,
+                        refreshTokenHash: Crypto.hashToken(
+                            newTokens.refreshToken,
+                        ),
+                        expiresAt: new Date(
+                            Date.now() + 7 * 24 * 60 * 60 * 1000,
+                        ), // TODO: move to env
+                    },
+                });
 
-            return { revokedToken, newAuthToken };
-        });
+                return { revokedToken, newAuthToken };
+            },
+        );
 
         return newTokens;
     }
