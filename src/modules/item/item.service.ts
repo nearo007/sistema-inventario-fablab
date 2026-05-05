@@ -1,6 +1,11 @@
 import { prisma } from "@lib/prisma.js";
 import { handlePrismaError } from "@shared/utils/prisma.js";
-import type { CreateItemDTO, UpdateItemDTO } from "@modules/item/item.dtos.js";
+import type {
+    CreateItemDTO,
+    GetByCategoryDTO,
+    ListByCategoryDTO,
+    UpdateItemDTO,
+} from "@modules/item/item.dtos.js";
 import { CreateItemValidator } from "@src/modules/item/input-validation/create-item.validator.js";
 
 class ItemService {
@@ -20,6 +25,18 @@ class ItemService {
         try {
             const items = await prisma.item.findMany();
             return items;
+        } catch (err: any) {
+            handlePrismaError(err);
+        }
+    }
+
+    async listByCategory(category: ListByCategoryDTO) {
+        try {
+            const items = await prisma.item.findMany({
+                where: {
+                    category,
+                },
+            });
         } catch (err: any) {
             handlePrismaError(err);
         }
