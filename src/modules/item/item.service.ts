@@ -21,7 +21,7 @@ class ItemService {
         }
     }
 
-    async getAll() {
+    async list() {
         try {
             const items = await prisma.item.findMany();
             return items;

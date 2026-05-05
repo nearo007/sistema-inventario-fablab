@@ -5,7 +5,7 @@ import { authMiddleware } from "@src/middlewares/authMiddleware.js";
 const itemRouter = Router();
 
 itemRouter.post("/create", authMiddleware, itemController.create);
-itemRouter.get("/", authMiddleware, itemController.getAll);
+itemRouter.get("/", authMiddleware, itemController.list);
 itemRouter.get("/by-category", authMiddleware, itemController.listByCategory);
 itemRouter.patch("/:id", authMiddleware, itemController.updateById);
 itemRouter.delete("/:id", authMiddleware, itemController.deleteById);

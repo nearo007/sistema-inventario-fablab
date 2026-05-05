@@ -14,8 +14,8 @@ class ItemController {
         return res.status(200).json(item);
     }
 
-    async getAll(req: Request, res: Response) {
-        const items = await itemService.getAll();
+    async list(req: Request, res: Response) {
+        const items = await itemService.list();
         return res.status(200).json(items);
     }
 
