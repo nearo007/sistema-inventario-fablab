@@ -15,3 +15,6 @@ export type UpdateItemDTO = {
 export type ListByCategoryDTO = {
     category: string;
 };
+export type ListByLocationDTO = {
+    category: string;
+};

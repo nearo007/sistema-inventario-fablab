@@ -4,6 +4,7 @@ import type {
     CreateItemDTO,
     GetByCategoryDTO,
     ListByCategoryDTO,
+    ListByLocationDTO,
     UpdateItemDTO,
 } from "@modules/item/item.dtos.js";
 import { CreateItemValidator } from "@src/modules/item/input-validation/create-item.validator.js";
@@ -31,6 +32,18 @@ class ItemService {
     }
 
     async listByCategory(category: ListByCategoryDTO) {
+        try {
+            const items = await prisma.item.findMany({
+                where: {
+                    category,
+                },
+            });
+        } catch (err: any) {
+            handlePrismaError(err);
+        }
+    }
+
+    async listByLocation(category: ListByLocationDTO) {
         try {
             const items = await prisma.item.findMany({
                 where: {
