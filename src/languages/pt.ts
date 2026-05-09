@@ -3,8 +3,7 @@ export const PT_MESSAGES = {
         NOT_FOUND: {
             GENERAL: "Nenhum usuário cadastrado.",
             BY_ID: "Não foi possível encontrar um usuário com esse ID.",
-            BY_USERNAME:
-                "Não foi possível encontrar o usuário.",
+            BY_USERNAME: "Não foi possível encontrar o usuário.",
             BY_EMAIL: "Não foi possível encontrar um usuário com esse email.",
         },
         CONFLICT: {
@@ -18,7 +17,7 @@ export const PT_MESSAGES = {
             USERNAME_TOO_SHORT: (num: number) =>
                 `O usuário deve conter pelo menos ${num} caracteres.`,
             USERNAME_TOO_LONG: (num: number) =>
-                `O usuário ter no máximo ${num} caracteres.`,
+                `O usuário deve ter no máximo ${num} caracteres.`,
             EMAIL_REQUIRED: "O e-mail é obrigatório.",
             EMAIL_INVALID: "O e-mail é inválido.",
             PASSWORD_REQUIRED: "A senha é obrigatória",
@@ -32,8 +31,8 @@ export const PT_MESSAGES = {
             INCORRECT_CREDENTIALS: "Credenciais inválidas.",
             TOKEN: {
                 NOT_FOUND: "Token ausente.",
-                INVALID_OR_EXPIRED: "Token inválido ou expirado."
-            }
+                INVALID_OR_EXPIRED: "Token inválido ou expirado.",
+            },
         },
     },
 
@@ -60,8 +59,10 @@ export const PT_MESSAGES = {
             QUANTITY_NEGATIVE: "A quantidade não pode ser negativa.",
             QUANTITY_TOO_LOW: (min: number) => `A quantidade mínima é ${min}.`,
             QUANTITY_TOO_HIGH: (max: number) => `A quantidade máxima é ${max}.`,
-            REQUIRED_FIELD: (fieldName: string) => `O campo ${fieldName} é obrigatório(a).`,
-            INVALID_FIELD: (fieldName: string) => `O campo ${fieldName} é inválido(a).`,
+            REQUIRED_FIELD: (fieldName: string) =>
+                `O campo ${fieldName} é obrigatório(a).`,
+            INVALID_FIELD: (fieldName: string) =>
+                `O campo ${fieldName} é inválido(a).`,
         },
     },
     FIELDS: {
