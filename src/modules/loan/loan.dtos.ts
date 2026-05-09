@@ -1,5 +1,5 @@
 export type CreateLoanDTO = {
-    userId: number;
+    clientId: number;
     itemId: number;
     loanDate: string;
     dueDate: string;

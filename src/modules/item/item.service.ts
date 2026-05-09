@@ -1,3 +1,4 @@
+import { MESSAGES } from "@src/constants/messages.js";
 import { prisma } from "@lib/prisma.js";
 import { handlePrismaError } from "@shared/utils/prisma.js";
 import type { CreateItemDTO, UpdateItemDTO } from "@modules/item/item.dtos.js";
@@ -10,6 +11,16 @@ class ItemService {
             const item = await prisma.item.create({
                 data,
             });
+            return item;
+        } catch (err: any) {
+            handlePrismaError(err);
+        }
+    }
+
+    async getById(id: number) {
+        try {
+            const item = await prisma.item.findUnique({ where: { id } });
+            if (!item) throw new Error(MESSAGES.ITEM.VALIDATION.NOT_FOUND);
             return item;
         } catch (err: any) {
             handlePrismaError(err);

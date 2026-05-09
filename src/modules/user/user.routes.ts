@@ -7,6 +7,7 @@ const userRouter = Router();
 
 userRouter.post('/create', userController.create);
 userRouter.get('/', authMiddleware, userController.getAll);
+userRouter.get('/:id', authMiddleware, userController.getById);
 userRouter.patch('/:id', authMiddleware, userController.updateById);
 userRouter.delete('/:id', authMiddleware, userController.deleteById);
 

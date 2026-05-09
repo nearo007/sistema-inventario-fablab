@@ -39,6 +39,7 @@ export const PT_MESSAGES = {
 
     ITEM: {
         VALIDATION: {
+            NOT_FOUND: "Item não encontrado.",
             NAME_REQUIRED: "O nome do item é obrigatório.",
             NAME_TOO_SHORT: (num: number) =>
                 `O nome do item deve conter pelo menos ${num} caracteres.`,
@@ -51,6 +52,20 @@ export const PT_MESSAGES = {
             LOCATION_REQUIRED: "A localização é obrigatória.",
             LOCATION_TOO_LONG: (num: number) =>
                 `A localização deve ter no máximo ${num} caracteres.`,
+
+            QUANTITY_INVALID: "A quantidade deve ser um número válido.",
+        },
+    },
+    CLIENT: {
+        VALIDATION: {
+            NAME_REQUIRED: "O nome do cliente é obrigatório.",
+            NAME_TOO_SHORT: (num: number) =>
+                `O nome do cliente deve conter pelo menos ${num} caracteres.`,
+            NAME_TOO_LONG: (num: number) =>
+                `O nome do cliente deve ter no máximo ${num} caracteres.`,
+            PHONE_TOO_LONG: (num: number) =>
+                `O telefone deve ter no máximo ${num} caracteres.`,
+            NOT_FOUND: "Cliente não encontrado.",
         },
     },
     SHARED: {
@@ -62,6 +77,11 @@ export const PT_MESSAGES = {
             QUANTITY_TOO_HIGH: (max: number) => `A quantidade máxima é ${max}.`,
             REQUIRED_FIELD: (fieldName: string) => `O campo ${fieldName} é obrigatório(a).`,
             INVALID_FIELD: (fieldName: string) => `O campo ${fieldName} é inválido(a).`,
+        },
+    },
+    LOAN: {
+        VALIDATION: {
+            NOT_FOUND: "Empréstimo não encontrado.",
         },
     },
     FIELDS: {

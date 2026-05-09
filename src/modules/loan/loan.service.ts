@@ -1,3 +1,4 @@
+import { MESSAGES } from "@src/constants/messages.js";
 import { prisma } from "@lib/prisma.js";
 import { handlePrismaError } from "@shared/utils/prisma.js";
 import type { CreateLoanDTO } from "@modules/loan/loan.dtos.js";
@@ -14,12 +15,22 @@ class LoanService {
                     dueDate: new Date(data.dueDate),
                     returnDate: data.returnDate ? new Date(data.returnDate) : null,
                     loanQuantity: data.loanQuantity,
-                    userId: data.userId,
+                    clientId: data.clientId,
                     itemId: data.itemId,
                 },
             });
             return loan;
         } catch (err:any) {
+            handlePrismaError(err);
+        }
+    }
+
+    async getById(id: number) {
+        try {
+            const loan = await prisma.loan.findUnique({ where: { id } });
+            if (!loan) throw new Error(MESSAGES.LOAN.VALIDATION.NOT_FOUND);
+            return loan;
+        } catch (err: any) {
             handlePrismaError(err);
         }
     }

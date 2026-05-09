@@ -10,6 +10,12 @@ class ItemController {
         return res.status(200).json(item);
     }
 
+    async getById(req: Request, res: Response) {
+        const itemId = Number(req.params.id);
+        const item = await itemService.getById(itemId);
+        return res.status(200).json(item);
+    }
+
     async getAll(req: Request, res: Response) {
         const items = await itemService.getAll();
         return res.status(200).json(items);

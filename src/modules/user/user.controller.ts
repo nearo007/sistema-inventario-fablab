@@ -12,6 +12,12 @@ class UserController {
         return res.status(200).json(user);
     }
 
+    async getById(req: Request, res: Response) {
+        const userId = Number(req.params.id);
+        const user = await userService.getById(userId);
+        return res.status(200).json(user);
+    }
+
     async getAll(req: Request, res: Response) {
         const users = await userService.getAll();
         return res.status(200).json(users);

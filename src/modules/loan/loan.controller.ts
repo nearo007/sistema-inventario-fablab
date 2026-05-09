@@ -10,6 +10,12 @@ class LoanController {
         return res.json(loan);
     }
 
+    async getById(req: Request, res: Response) {
+        const loanId = Number(req.params.id);
+        const loan = await loanService.getById(loanId);
+        return res.json(loan);
+    }
+
     async getAll(req: Request, res: Response) {
         const loans = await loanService.getAll();
         return res.json(loans);

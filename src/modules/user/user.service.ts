@@ -28,6 +28,16 @@ class UserService {
         }
     }
 
+    async getById(id: number) {
+        try {
+            const user = await prisma.user.findUnique({ where: { id } });
+            if (!user) throw new Error(MESSAGES.USER.NOT_FOUND.BY_ID);
+            return user;
+        } catch (err: any) {
+            handlePrismaError(err);
+        }
+    }
+
     async getAll() {
         try {
             const allUsers = await prisma.user.findMany();

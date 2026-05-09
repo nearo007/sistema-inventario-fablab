@@ -7,7 +7,7 @@ import { QuantityValidator } from "@src/shared/utils/validators/quantity.validat
 export class CreateLoanValidator {
     static validate(data: CreateLoanDTO) {
         IdValidator.validate(data.itemId);
-        IdValidator.validate(data.userId);
+        IdValidator.validate(data.clientId);
         DateValidator.validate(data.loanDate, MESSAGES.FIELDS.LOAN_DATE);
         DateValidator.validate(data.dueDate, MESSAGES.FIELDS.DUE_DATE);
         QuantityValidator.validate(data.loanQuantity, 1);
