@@ -1,6 +1,11 @@
 import type { Request, Response } from "express";
 import { itemService } from "@modules/item/item.service.js";
-import type { CreateItemDTO, UpdateItemDTO } from "@modules/item/item.dtos.js";
+import type {
+    CreateItemDTO,
+    ListByCategoryDTO,
+    ListByLocationDTO,
+    UpdateItemDTO,
+} from "@modules/item/item.dtos.js";
 
 class ItemController {
     async create(req: Request, res: Response) {
@@ -10,8 +15,22 @@ class ItemController {
         return res.status(200).json(item);
     }
 
-    async getAll(req: Request, res: Response) {
-        const items = await itemService.getAll();
+    async list(req: Request, res: Response) {
+        const items = await itemService.list();
+        return res.status(200).json(items);
+    }
+
+    async listByCategory(req: Request, res: Response) {
+        const category: ListByCategoryDTO = req.body;
+        const items = await itemService.listByCategory(category);
+
+        return res.status(200).json(items);
+    }
+
+    async listByLocation(req: Request, res: Response) {
+        const location: ListByLocationDTO = req.body;
+        const items = await itemService.listByLocation(location);
+
         return res.status(200).json(items);
     }
 

@@ -11,3 +11,10 @@ export type UpdateItemDTO = {
     totalQuantity?: number;
     location?: string;
 };
+
+export type ListByCategoryDTO = {
+    category: string;
+};
+export type ListByLocationDTO = {
+    location: string;
+};

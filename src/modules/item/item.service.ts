@@ -1,51 +1,63 @@
 import { prisma } from "@lib/prisma.js";
-import { handlePrismaError } from "@shared/utils/prisma.js";
-import type { CreateItemDTO, UpdateItemDTO } from "@modules/item/item.dtos.js";
+import type {
+    CreateItemDTO,
+    ListByCategoryDTO,
+    ListByLocationDTO,
+    UpdateItemDTO,
+} from "@modules/item/item.dtos.js";
 import { CreateItemValidator } from "@src/modules/item/input-validation/create-item.validator.js";
 
 class ItemService {
     async create(data: CreateItemDTO) {
-        try {
-            CreateItemValidator.validate(data);
-            const item = await prisma.item.create({
-                data,
-            });
-            return item;
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
+        CreateItemValidator.validate(data);
+
+        const item = await prisma.item.create({
+            data,
+        });
+
+        return item;
     }
 
-    async getAll() {
-        try {
-            const items = await prisma.item.findMany();
-            return items;
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
+    async list() {
+        const items = await prisma.item.findMany();
+        return items;
+    }
+
+    async listByCategory(category: ListByCategoryDTO) {
+        const items = await prisma.item.findMany({
+            where: {
+                category,
+            },
+        });
+
+        return items;
+    }
+
+    async listByLocation(location: ListByLocationDTO) {
+        const items = await prisma.item.findMany({
+            where: {
+                location,
+            },
+        });
+
+        return items;
     }
 
     async updateById(id: number, data: UpdateItemDTO) {
-        try {
-            const item = await prisma.item.update({
-                where: { id },
-                data,
-            });
-            return item;
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
+        const item = await prisma.item.update({
+            where: { id },
+            data,
+        });
+
+        return item;
     }
 
     async deleteById(id: number) {
-        try {
-            const item = await prisma.item.delete({
-                where: { id },
-            });
-            return item;
-        } catch (err: any) {
-            handlePrismaError(err);
-        }
+        const item = await prisma.item.delete({
+            where: { id },
+        });
+
+        return item;
     }
 }
 
