@@ -8,6 +8,7 @@ itemRouter.post("/create", authMiddleware, itemController.create);
 itemRouter.get("/", authMiddleware, itemController.list);
 itemRouter.get("/by-category", authMiddleware, itemController.listByCategory);
 itemRouter.get("/by-location", authMiddleware, itemController.listByLocation);
+itemRouter.get("/:id", authMiddleware, itemController.getById);
 itemRouter.patch("/:id", authMiddleware, itemController.updateById);
 itemRouter.delete("/:id", authMiddleware, itemController.deleteById);
 

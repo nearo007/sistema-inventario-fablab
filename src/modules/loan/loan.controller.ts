@@ -15,6 +15,12 @@ class LoanController {
         return res.json(loans);
     }
 
+    async getById(req: Request, res: Response) {
+        const id = Number(req.params.id);
+        const loan = await loanService.getById(id);
+        return res.json(loan);
+    }
+
     async updateById(req: Request, res: Response) {
         const loanId = Number(req.params.id);
         const data: UpdateLoanDTO = req.body;

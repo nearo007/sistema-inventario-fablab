@@ -20,6 +20,12 @@ class ItemController {
         return res.status(200).json(items);
     }
 
+    async getById(req: Request, res: Response) {
+        const id = Number(req.params.id);
+        const item = await itemService.getById(id);
+        return res.status(200).json(item);
+    }
+
     async listByCategory(req: Request, res: Response) {
         const category: ListByCategoryDTO = req.body;
         const items = await itemService.listByCategory(category);

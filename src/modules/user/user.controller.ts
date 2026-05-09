@@ -17,12 +17,18 @@ class UserController {
         return res.status(200).json(users);
     }
 
+    async getById(req: Request, res: Response) {
+        const id = Number(req.params.id);
+        const user = await userService.getById(id);
+        return res.status(200).json(user);
+    }
+
     async updateById(req: Request, res: Response) {
         const userId = Number(req.params.id);
         const data: UpdateUserDTO = req.body;
 
         if (data.email) EmailValidator.validate(data.email);
-        if (data.name) UsernameValidator.validate(data.name);
+        if (data.username) UsernameValidator.validate(data.username);
 
         const user = await userService.updateById(userId, data);
         return res.status(200).json(user);

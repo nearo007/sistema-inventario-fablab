@@ -31,6 +31,11 @@ class UserService {
         return allUsers;
     }
 
+    async getById(id: number) {
+        const user = await prisma.user.findUnique({ where: { id } });
+        return user;
+    }
+
     async updateById(id: number, data: UpdateUserDTO) {
         const user = await prisma.user.update({
             where: { id },

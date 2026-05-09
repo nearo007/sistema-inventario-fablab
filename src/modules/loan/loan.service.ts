@@ -13,7 +13,7 @@ class LoanService {
                 dueDate: new Date(data.dueDate),
                 returnDate: data.returnDate ? new Date(data.returnDate) : null,
                 loanQuantity: data.loanQuantity,
-                userId: data.userId,
+                clientId: data.clientId,
                 itemId: data.itemId,
             },
         });
@@ -24,6 +24,11 @@ class LoanService {
     async getAll() {
         const loans = await prisma.loan.findMany();
         return loans;
+    }
+
+    async getById(id: number) {
+        const loan = await prisma.loan.findUnique({ where: { id } });
+        return loan;
     }
 
     async updateById(

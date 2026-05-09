@@ -52,6 +52,22 @@ export const PT_MESSAGES = {
                 `A localização deve ter no máximo ${num} caracteres.`,
         },
     },
+    CLIENT: {
+        NOT_FOUND: {
+            GENERAL: "Nenhum cliente cadastrado.",
+            BY_ID: "Não foi possível encontrar um cliente com esse ID.",
+        },
+        CONFLICT: {
+            EMAIL_EXISTS: "Este e-mail já está cadastrado no sistema.",
+        },
+        VALIDATION: {
+            NAME_REQUIRED: "O nome do cliente é obrigatório.",
+            NAME_TOO_SHORT: (num: number) =>
+                `O nome do cliente deve conter pelo menos ${num} caracteres.`,
+            NAME_TOO_LONG: (num: number) =>
+                `O nome do cliente deve ter no máximo ${num} caracteres.`,
+        },
+    },
     SHARED: {
         VALIDATION: {
             QUANTITY_REQUIRED: "A quantidade é obrigatória.",
@@ -59,6 +75,7 @@ export const PT_MESSAGES = {
             QUANTITY_NEGATIVE: "A quantidade não pode ser negativa.",
             QUANTITY_TOO_LOW: (min: number) => `A quantidade mínima é ${min}.`,
             QUANTITY_TOO_HIGH: (max: number) => `A quantidade máxima é ${max}.`,
+            PHONE_INVALID: "O telefone deve conter entre 10 e 11 dígitos.",
             REQUIRED_FIELD: (fieldName: string) =>
                 `O campo ${fieldName} é obrigatório(a).`,
             INVALID_FIELD: (fieldName: string) =>

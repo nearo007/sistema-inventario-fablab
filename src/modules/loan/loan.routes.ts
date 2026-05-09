@@ -6,6 +6,7 @@ const loanRouter = Router();
 
 loanRouter.post('/create', authMiddleware, loanController.create);
 loanRouter.get('/', authMiddleware, loanController.getAll);
+loanRouter.get('/:id', authMiddleware, loanController.getById);
 loanRouter.patch('/:id', authMiddleware, loanController.updateById);
 loanRouter.delete('/:id', authMiddleware, loanController.deleteById);
 

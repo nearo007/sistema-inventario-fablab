@@ -23,7 +23,12 @@ class ItemService {
         return items;
     }
 
-    async listByCategory(category: ListByCategoryDTO) {
+    async getById(id: number) {
+        const item = await prisma.item.findUnique({ where: { id } });
+        return item;
+    }
+
+    async listByCategory({ category }: ListByCategoryDTO) {
         const items = await prisma.item.findMany({
             where: {
                 category,
@@ -33,7 +38,7 @@ class ItemService {
         return items;
     }
 
-    async listByLocation(location: ListByLocationDTO) {
+    async listByLocation({ location }: ListByLocationDTO) {
         const items = await prisma.item.findMany({
             where: {
                 location,
