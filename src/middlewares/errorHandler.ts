@@ -10,8 +10,8 @@ export function errorHandler(
     try {
         handlePrismaError(err);
     } catch (e) {
-        if (err instanceof Error) {
-            return res.status(400).json({ errorMessage: err.message });
+        if (e instanceof Error) {
+            return res.status(400).json({ errorMessage: e.message });
         }
 
         return res.status(500).json({ errorMessage: "Erro interno" });
