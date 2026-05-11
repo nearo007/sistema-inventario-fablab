@@ -37,6 +37,10 @@ export const PT_MESSAGES = {
     },
 
     ITEM: {
+        NOT_FOUND: {
+            GENERAL: "Esse item não está cadastrado no sistema.",
+            BY_ID: "Não foi possível encontrar um item com esse ID.",
+        },
         VALIDATION: {
             NAME_REQUIRED: "O nome do item é obrigatório.",
             NAME_TOO_SHORT: (num: number) =>
@@ -50,6 +54,12 @@ export const PT_MESSAGES = {
             LOCATION_REQUIRED: "A localização é obrigatória.",
             LOCATION_TOO_LONG: (num: number) =>
                 `A localização deve ter no máximo ${num} caracteres.`,
+        },
+    },
+    LOAN: {
+        VALIDATION: {
+            QUANTITY_TOO_BIG: (num: number) =>
+                `Quantidade máxima disponível em estoque: ${num}.`,
         },
     },
     CLIENT: {
@@ -75,11 +85,11 @@ export const PT_MESSAGES = {
             QUANTITY_NEGATIVE: "A quantidade não pode ser negativa.",
             QUANTITY_TOO_LOW: (min: number) => `A quantidade mínima é ${min}.`,
             QUANTITY_TOO_HIGH: (max: number) => `A quantidade máxima é ${max}.`,
-            PHONE_INVALID: "O telefone deve conter entre 10 e 11 dígitos.",
             REQUIRED_FIELD: (fieldName: string) =>
                 `O campo ${fieldName} é obrigatório(a).`,
             INVALID_FIELD: (fieldName: string) =>
                 `O campo ${fieldName} é inválido(a).`,
+            PHONE_INVALID: "O telefone deve conter entre 10 e 11 dígitos.",
         },
     },
     FIELDS: {

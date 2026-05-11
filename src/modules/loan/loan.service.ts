@@ -2,10 +2,25 @@ import { prisma } from "@lib/prisma.js";
 import { handlePrismaError } from "@shared/utils/prisma.js";
 import type { CreateLoanDTO } from "@modules/loan/loan.dtos.js";
 import { CreateLoanValidator } from "./input-validation/create-loan.validator.js";
+import { MESSAGES } from "@src/constants/messages.js";
 
 class LoanService {
     async create(data: CreateLoanDTO) {
         CreateLoanValidator.validate(data);
+
+        const item = await prisma.item.findFirst({
+            where: { id: data.itemId },
+        });
+
+        if (!item) {
+            throw new Error(MESSAGES.ITEM.NOT_FOUND.GENERAL);
+        }
+
+        if (data.loanQuantity > item.totalQuantity) {
+            throw new Error(
+                MESSAGES.LOAN.VALIDATION.QUANTITY_TOO_BIG(item.totalQuantity),
+            );
+        }
 
         const loan = await prisma.loan.create({
             data: {
