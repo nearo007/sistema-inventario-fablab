@@ -1,6 +1,7 @@
 import { prisma } from "@lib/prisma.js";
 import type {
     CreateItemDTO,
+    ItemDTO,
     ListByCategoryDTO,
     ListByLocationDTO,
     UpdateItemDTO,
@@ -8,7 +9,7 @@ import type {
 import { CreateItemValidator } from "@src/modules/item/input-validation/create-item.validator.js";
 
 class ItemService {
-    async create(data: CreateItemDTO) {
+    async create(data: CreateItemDTO): Promise<ItemDTO> {
         CreateItemValidator.validate(data);
 
         const item = await prisma.item.create({
@@ -18,17 +19,17 @@ class ItemService {
         return item;
     }
 
-    async list() {
+    async list(): Promise<ItemDTO[]> {
         const items = await prisma.item.findMany();
         return items;
     }
 
-    async getById(id: number) {
+    async getById(id: number): Promise<ItemDTO> {
         const item = await prisma.item.findUnique({ where: { id } });
         return item;
     }
 
-    async listByCategory({ category }: ListByCategoryDTO) {
+    async listByCategory({ category }: ListByCategoryDTO): Promise<ItemDTO[]> {
         const items = await prisma.item.findMany({
             where: {
                 category,
@@ -38,7 +39,7 @@ class ItemService {
         return items;
     }
 
-    async listByLocation({ location }: ListByLocationDTO) {
+    async listByLocation({ location }: ListByLocationDTO): Promise<ItemDTO[]> {
         const items = await prisma.item.findMany({
             where: {
                 location,
@@ -48,7 +49,7 @@ class ItemService {
         return items;
     }
 
-    async updateById(id: number, data: UpdateItemDTO) {
+    async updateById(id: number, data: UpdateItemDTO): Promise<ItemDTO> {
         const item = await prisma.item.update({
             where: { id },
             data,
@@ -57,7 +58,7 @@ class ItemService {
         return item;
     }
 
-    async deleteById(id: number) {
+    async deleteById(id: number): Promise<void> {
         const item = await prisma.item.delete({
             where: { id },
         });

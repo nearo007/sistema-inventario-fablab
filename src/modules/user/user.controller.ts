@@ -12,8 +12,8 @@ class UserController {
         return res.status(200).json(user);
     }
 
-    async getAll(req: Request, res: Response) {
-        const users = await userService.getAll();
+    async list(req: Request, res: Response) {
+        const users = await userService.list();
         return res.status(200).json(users);
     }
 

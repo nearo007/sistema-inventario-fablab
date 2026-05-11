@@ -3,6 +3,7 @@ import { prisma } from "@lib/prisma.js";
 import { Bcrypt } from "@shared/utils/bcrypt.js";
 import { handlePrismaError } from "@shared/utils/prisma.js";
 import type {
+    UserDTO,
     CreateUserDTO,
     UpdateUserDTO,
     UpdateUserPasswordDTO,
@@ -10,7 +11,7 @@ import type {
 import { CreateUserValidator } from "@src/modules/user/input-validation/create-user.validator.js";
 import { PasswordValidator } from "@src/shared/utils/validators/password.validator.js";
 class UserService {
-    async create(data: CreateUserDTO) {
+    async create(data: CreateUserDTO): Promise<UserDTO> {
         const { username, email, password } = data;
 
         CreateUserValidator.validate(data);
@@ -26,17 +27,17 @@ class UserService {
         return user;
     }
 
-    async getAll() {
+    async list(): Promise<UserDTO[]> {
         const allUsers = await prisma.user.findMany();
         return allUsers;
     }
 
-    async getById(id: number) {
+    async getById(id: number): Promise<UserDTO> {
         const user = await prisma.user.findUnique({ where: { id } });
         return user;
     }
 
-    async updateById(id: number, data: UpdateUserDTO) {
+    async updateById(id: number, data: UpdateUserDTO): Promise<UserDTO> {
         const user = await prisma.user.update({
             where: { id },
             data,
@@ -45,18 +46,21 @@ class UserService {
         return user;
     }
 
-    async updatePasswordById(id: number, data: UpdateUserPasswordDTO) {
+    async updatePasswordById(
+        id: number,
+        data: UpdateUserPasswordDTO,
+    ): Promise<void> {
         PasswordValidator.validate(data.password);
 
         return;
     }
 
-    async deleteById(id: number) {
-        const user = await prisma.user.delete({
+    async deleteById(id: number): Promise<void> {
+        await prisma.user.delete({
             where: { id },
         });
 
-        return user;
+        return;
     }
 }
 
