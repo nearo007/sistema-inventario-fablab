@@ -9,8 +9,8 @@ class ClientController {
         return res.status(200).json(client);
     }
 
-    async getAll(req: Request, res: Response) {
-        const clients = await clientService.getAll();
+    async list(req: Request, res: Response) {
+        const clients = await clientService.list();
         return res.status(200).json(clients);
     }
 

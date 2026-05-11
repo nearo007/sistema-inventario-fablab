@@ -1,11 +1,15 @@
 import { prisma } from "@lib/prisma.js";
 import { handlePrismaError } from "@shared/utils/prisma.js";
-import type { CreateLoanDTO } from "@modules/loan/loan.dtos.js";
+import type {
+    CreateLoanDTO,
+    LoanDTO,
+    UpdateLoanDTO,
+} from "@modules/loan/loan.dtos.js";
 import { CreateLoanValidator } from "./input-validation/create-loan.validator.js";
 import { MESSAGES } from "@src/constants/messages.js";
 
 class LoanService {
-    async create(data: CreateLoanDTO) {
+    async create(data: CreateLoanDTO): Promise<LoanDTO> {
         CreateLoanValidator.validate(data);
 
         const item = await prisma.item.findFirst({
@@ -36,12 +40,12 @@ class LoanService {
         return loan;
     }
 
-    async getAll() {
+    async list(): Promise<LoanDTO[]> {
         const loans = await prisma.loan.findMany();
         return loans;
     }
 
-    async getById(id: number) {
+    async getById(id: number): Promise<LoanDTO | null> {
         const loan = await prisma.loan.findUnique({ where: { id } });
         return loan;
     }
@@ -53,7 +57,7 @@ class LoanService {
             dueDate?: Date;
             returnDate?: Date | null;
         },
-    ) {
+    ): Promise<LoanDTO> {
         const loan = await prisma.loan.update({
             where: { id },
             data,
@@ -62,12 +66,12 @@ class LoanService {
         return loan;
     }
 
-    async deleteById(id: number) {
-        const loan = await prisma.loan.delete({
+    async deleteById(id: number): Promise<void> {
+        await prisma.loan.delete({
             where: { id },
         });
 
-        return loan;
+        return;
     }
 }
 

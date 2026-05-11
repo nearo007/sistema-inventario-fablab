@@ -1,3 +1,10 @@
+export type ItemDTO = {
+    name: string;
+    category: string | null;
+    totalQuantity: number;
+    location: string;
+};
+
 export type CreateItemDTO = {
     name: string;
     category?: string;

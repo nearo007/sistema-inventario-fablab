@@ -1,3 +1,12 @@
+export type LoanDTO = {
+    clientId: number;
+    itemId: number;
+    loanDate: Date;
+    dueDate: Date;
+    loanQuantity: number;
+    returnDate: Date | null;
+};
+
 export type CreateLoanDTO = {
     clientId: number;
     itemId: number;

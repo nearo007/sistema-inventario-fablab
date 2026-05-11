@@ -1,4 +1,4 @@
-import type { LoginDTO } from "@modules/auth/auth.dtos.js";
+import type { LoginDTO, TokensDTO } from "@modules/auth/auth.dtos.js";
 import { MESSAGES } from "@src/constants/messages.js";
 import { prisma } from "@src/lib/prisma.js";
 import { LoginValidator } from "@src/modules/auth/input-validation/login.validator.js";
@@ -8,7 +8,7 @@ import { Crypto } from "@src/shared/utils/crypto.js";
 import { Prisma } from "@src/generated/prisma/client.js";
 
 class AuthService {
-    async login(data: LoginDTO) {
+    async login(data: LoginDTO): Promise<TokensDTO> {
         LoginValidator.validate(data);
 
         const { email, password } = data;
@@ -47,7 +47,7 @@ class AuthService {
         return tokens;
     }
 
-    async refresh(refreshToken: string) {
+    async refresh(refreshToken: string): Promise<TokensDTO> {
         const hashed = Crypto.hashToken(refreshToken);
 
         const token = await prisma.authToken.findFirst({
