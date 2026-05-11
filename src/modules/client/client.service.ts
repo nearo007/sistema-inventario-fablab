@@ -18,7 +18,7 @@ class ClientService {
         return clients;
     }
 
-    async getById(id: number): Promise<ClientDTO> {
+    async getById(id: number): Promise<ClientDTO | null> {
         const client = await prisma.client.findUnique({ where: { id } });
         return client;
     }

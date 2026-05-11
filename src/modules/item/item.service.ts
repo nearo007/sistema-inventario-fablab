@@ -24,7 +24,7 @@ class ItemService {
         return items;
     }
 
-    async getById(id: number): Promise<ItemDTO> {
+    async getById(id: number): Promise<ItemDTO | null> {
         const item = await prisma.item.findUnique({ where: { id } });
         return item;
     }
@@ -59,11 +59,11 @@ class ItemService {
     }
 
     async deleteById(id: number): Promise<void> {
-        const item = await prisma.item.delete({
+        await prisma.item.delete({
             where: { id },
         });
 
-        return item;
+        return;
     }
 }
 

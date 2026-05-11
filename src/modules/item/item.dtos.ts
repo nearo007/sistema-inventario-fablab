@@ -1,6 +1,6 @@
 export type ItemDTO = {
     name: string;
-    category?: string;
+    category: string | null;
     totalQuantity: number;
     location: string;
 };

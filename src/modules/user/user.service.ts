@@ -32,7 +32,7 @@ class UserService {
         return allUsers;
     }
 
-    async getById(id: number): Promise<UserDTO> {
+    async getById(id: number): Promise<UserDTO | null> {
         const user = await prisma.user.findUnique({ where: { id } });
         return user;
     }

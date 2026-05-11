@@ -30,7 +30,7 @@ class LoanService {
         return loans;
     }
 
-    async getById(id: number): Promise<LoanDTO> {
+    async getById(id: number): Promise<LoanDTO | null> {
         const loan = await prisma.loan.findUnique({ where: { id } });
         return loan;
     }

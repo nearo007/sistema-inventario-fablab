@@ -1,7 +1,7 @@
 export type ClientDTO = {
     name: string;
     email: string;
-    phone?: string;
+    phone: string | null;
 };
 
 export type CreateClientDTO = {
