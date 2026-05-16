@@ -5,6 +5,9 @@
     "main": "index.js",
     "scripts": {
         "dev": "tsx watch src/server.ts",
+        "start": "tsx src/server.ts",
+        "start:db": "docker compose up -d && sleep 3 && npx prisma migrate deploy && tsx src/server.ts",
+        "start:full": "test -f .env || cp .env.example .env && npm run start:db",
         "db:migrate": "prisma migrate dev",
         "db:push": "prisma db push",
         "db:reset": "prisma migrate reset",
