@@ -139,20 +139,34 @@ src/
    npm run db:migrate
    ```
 
-7. **Inicie o servidor de desenvolvimento:**
+7. **(Opcional) Povoe a base de dados com dados iniciais:**
+   ```bash
+   npm run db:seed
+   ```
+   Este comando pergunta interativamente se pretende apagar os dados existentes e criar dados de exemplo (utilizadores, clientes, itens e empréstimos).
+
+8. **Inicie o servidor de desenvolvimento:**
    ```bash
    npm run dev
    ```
 
 O servidor estará rodando em `http://localhost:1727`.
 
+### Atalhos
+
+- `npm run start:db` — Combina os passos 4, 6 e 8: inicia a base de dados Docker, executa as migrações e arranca o servidor.
+- `npm run start:full` — Como o `start:db` mas também copia o `.env.example` para `.env` automaticamente se este não existir. (Opcional — útil para primeira execução rápida.)
+
 ### Comandos Úteis
 
 - **Desenvolvimento**: `npm run dev` (recarrega automaticamente)
 - **Gerar cliente Prisma**: `npm run db:generate`
 - **Executar migrações**: `npm run db:migrate`
+- **Povoar base de dados**: `npm run db:seed` (interativo, pede confirmação)
 - **Resetar banco**: `npm run db:reset`
 - **Abrir Prisma Studio**: `npm run db:studio`
+- **Arranque completo (DB + servidor)**: `npm run start:db`
+- **Arranque completo com setup automático**: `npm run start:full` (opcional)
 
 ## 📡 API Endpoints
 
