@@ -1,253 +1,136 @@
-# API Documentation
+# Referência da API — Frontend
 
-This document describes the backend API surface for the frontend consumer of the `sistema-inventario-fablab` application.
+URL Base: `http://localhost:<PORT>` (padrão `3000`)
 
-## Base URL
+---
 
-The application exposes the API under the root path. Example:
+## Autenticação
 
-- `http://localhost:<PORT>/`
+### Login (público)
+```
+POST /auth/login
+Body: { "email": string, "password": string }
+→  { "accessToken": string, "refreshToken": string }
+```
 
-`PORT` is set by the `PORT` environment variable.
+### Refresh Token (público)
+```
+POST /auth/refresh
+Body: { "refreshToken": string }
+→  { "accessToken": string, "refreshToken": string }
+```
 
-## Authentication
+### Endpoints protegidos
+Envie o token de acesso no cabeçalho:
+```
+Authorization: Bearer <accessToken>
+```
+Retorna `401` se estiver ausente/expirado.
 
-### Login
+---
 
-- URL: `POST /auth/login`
-- Public endpoint
-- Request body:
-  - `email` (string)
-  - `password` (string)
-- Response:
-  - `accessToken` (string)
-  - `refreshToken` (string)
+## Formato de erro
+| Status | Formato | Quando |
+|--------|---------|--------|
+| `400` | `{ "errorMessage": string }` | Violação de validação / regra de negócio |
+| `401` | `{ "error": string }` | Token ausente ou inválido |
+| `500` | `{ "errorMessage": "Erro interno" }` | Erro inesperado |
 
-Example response:
+---
 
-```json
+## Rotas
+
+### Usuários (`/user`)
+
+| Método | Caminho | Auth | Corpo obrigatório | Corpo opcional | Resposta |
+|--------|---------|------|-------------------|----------------|----------|
+| `POST` | `/user/create` | Não | `username`, `email`, `password`, `passwordConfirm` | — | `User` |
+| `GET` | `/user/` | Sim | — | — | `User[]` |
+| `GET` | `/user/:id` | Sim | — | — | `User` |
+| `PATCH` | `/user/:id` | Sim | — | `username`, `email` | `User` |
+| `DELETE` | `/user/:id` | Sim | — | — | `200` (vazio) |
+
+### Itens (`/item`)
+
+| Método | Caminho | Auth | Corpo obrigatório | Corpo opcional | Resposta |
+|--------|---------|------|-------------------|----------------|----------|
+| `POST` | `/item/create` | Sim | `name`, `totalQuantity`, `location` | `category` | `Item` |
+| `GET` | `/item/` | Sim | — | — | `Item[]` |
+| `GET` | `/item/by-category` | Sim | `category` (no corpo) | — | `Item[]` |
+| `GET` | `/item/by-location` | Sim | `location` (no corpo) | — | `Item[]` |
+| `GET` | `/item/:id` | Sim | — | — | `Item` |
+| `PATCH` | `/item/:id` | Sim | — | `name`, `category`, `totalQuantity`, `location` | `Item` |
+| `DELETE` | `/item/:id` | Sim | — | — | `Item` |
+
+> ⚠️ `by-category` e `by-location` são endpoints `GET` mas leem o filtro do **corpo da requisição** (não padrão).
+
+### Clientes (`/client`)
+
+| Método | Caminho | Auth | Corpo obrigatório | Corpo opcional | Resposta |
+|--------|---------|------|-------------------|----------------|----------|
+| `POST` | `/client/create` | Sim | `name`, `email` | `phone` | `Client` |
+| `GET` | `/client/` | Sim | — | — | `Client[]` |
+| `GET` | `/client/:id` | Sim | — | — | `Client` |
+| `PATCH` | `/client/:id` | Sim | — | `name`, `email`, `phone` | `Client` |
+| `DELETE` | `/client/:id` | Sim | — | — | `200` (vazio) |
+
+### Empréstimos (`/loan`)
+
+| Método | Caminho | Auth | Corpo obrigatório | Corpo opcional | Resposta |
+|--------|---------|------|-------------------|----------------|----------|
+| `POST` | `/loan/create` | Sim | `clientId`, `itemId`, `loanDate`, `dueDate`, `loanQuantity` | `returnDate` | `Loan` |
+| `GET` | `/loan/` | Sim | — | — | `Loan[]` |
+| `GET` | `/loan/:id` | Sim | — | — | `Loan` |
+| `PATCH` | `/loan/:id` | Sim | — | `loanDate`, `dueDate`, `returnDate` | `Loan` |
+| `DELETE` | `/loan/:id` | Sim | — | — | `200` (vazio) |
+
+---
+
+## Modelos
+
+### Usuário
+```ts
+{ id: number, email: string, username: string, passwordHash: string }
+```
+
+### Cliente
+```ts
+{ id: number, name: string, email: string, phone: string | null }
+```
+
+### Item
+```ts
+{ id: number, name: string, category: string | null, totalQuantity: number, location: string }
+```
+
+### Empréstimo
+```ts
 {
-  "accessToken": "...",
-  "refreshToken": "..."
+  id: number,
+  loanDate: string,       // ISO
+  dueDate: string,        // ISO
+  returnDate: string | null,
+  loanQuantity: number,
+  clientId: number,
+  itemId: number
 }
 ```
 
-### Refresh Token
+---
 
-- URL: `POST /auth/refresh`
-- Public endpoint
-- Request body:
-  - `refreshToken` (string)
-- Response:
-  - `accessToken` (string)
-  - `refreshToken` (string)
+## Regras de validação (resumo)
 
-## Authorization Header
-
-Protected endpoints require a bearer token in the `Authorization` header:
-
-```http
-Authorization: Bearer <accessToken>
-```
-
-If the header is missing or invalid, the API responds with `401 Unauthorized`.
-
-## Error Handling
-
-There are two common error response formats:
-
-- Authentication errors:
-  - Status: `401`
-  - Body: `{ "error": "<message>" }`
-- Validation / operational errors:
-  - Status: `400`
-  - Body: `{ "errorMessage": "<message>" }`
-
-Any other unexpected non-`Error` rejection may return `500` with `{ "errorMessage": "Erro interno" }`.
-
-## Users
-
-### Create user
-
-- URL: `POST /user/create`
-- Public endpoint
-- Request body:
-  - `username` (string)
-  - `email` (string)
-  - `password` (string)
-  - `passwordConfirm` (string)
-- Response: created user object
-
-Returned fields:
-- `id` (number)
-- `email` (string)
-- `username` (string)
-- `passwordHash` (string)
-
-> Note: the current implementation returns the raw created user model, including `passwordHash`.
-
-### List all users
-
-- URL: `GET /user/`
-- Protected endpoint
-- Response: array of user objects
-
-Returned user object fields:
-- `id` (number)
-- `email` (string)
-- `username` (string)
-- `passwordHash` (string)
-
-### Update user by ID
-
-- URL: `PATCH /user/:id`
-- Protected endpoint
-- URL parameters:
-  - `id` (number)
-- Request body (any combination):
-  - `name` (string)
-  - `email` (string)
-- Response: updated user object
-
-Returned fields are the same as list/create.
-
-### Delete user by ID
-
-- URL: `DELETE /user/:id`
-- Protected endpoint
-- URL parameters:
-  - `id` (number)
-- Response: `200 OK` with empty body
-
-## Items
-
-### Create item
-
-- URL: `POST /item/create`
-- Protected endpoint
-- Request body:
-  - `name` (string)
-  - `category` (string, optional)
-  - `totalQuantity` (number)
-  - `location` (string)
-- Response: created item object
-
-Returned fields:
-- `id` (number)
-- `name` (string)
-- `category` (string | null)
-- `totalQuantity` (number)
-- `location` (string)
-
-### List all items
-
-- URL: `GET /item/`
-- Protected endpoint
-- Response: array of item objects
-
-### List items by category
-
-- URL: `GET /item/by-category`
-- Protected endpoint
-- Request body:
-  - `category` (string)
-- Response: array of item objects
-
-### List items by location
-
-- URL: `GET /item/by-location`
-- Protected endpoint
-- Request body:
-  - `location` (string)
-- Response: array of item objects
-
-> Note: this endpoint is implemented as a `GET` with a request body.
-
-### Update item by ID
-
-- URL: `PATCH /item/:id`
-- Protected endpoint
-- URL parameters:
-  - `id` (number)
-- Request body (any combination):
-  - `name` (string)
-  - `category` (string)
-  - `totalQuantity` (number)
-  - `location` (string)
-- Response: updated item object
-
-### Delete item by ID
-
-- URL: `DELETE /item/:id`
-- Protected endpoint
-- URL parameters:
-  - `id` (number)
-- Response: deleted item object
-
-## Loans
-
-### Create loan
-
-- URL: `POST /loan/create`
-- Protected endpoint
-- Request body:
-  - `userId` (number)
-  - `itemId` (number)
-  - `loanDate` (string, ISO format)
-  - `dueDate` (string, ISO format)
-  - `loanQuantity` (number)
-  - `returnDate` (string, ISO format, optional)
-- Response: created loan object
-
-Returned fields:
-- `id` (number)
-- `loanDate` (string)
-- `dueDate` (string)
-- `returnDate` (string | null)
-- `loanQuantity` (number)
-- `userId` (number)
-- `itemId` (number)
-
-### List all loans
-
-- URL: `GET /loan/`
-- Protected endpoint
-- Response: array of loan objects
-
-### Update loan by ID
-
-- URL: `PATCH /loan/:id`
-- Protected endpoint
-- URL parameters:
-  - `id` (number)
-- Request body (any combination):
-  - `loanDate` (string, ISO format)
-  - `dueDate` (string, ISO format)
-  - `returnDate` (string, ISO format)
-- Response: updated loan object
-
-### Delete loan by ID
-
-- URL: `DELETE /loan/:id`
-- Protected endpoint
-- URL parameters:
-  - `id` (number)
-- Response: `200 OK` with empty body
-
-## Validation expectations
-
-The backend performs validation before saving data. Some important frontend rules:
-
-- `email` must be a valid email format.
-- `password` must satisfy backend password policy.
-- `passwordConfirm` must match `password` when creating a user.
-- `username` must respect username rules for user creation.
-- `totalQuantity` and `loanQuantity` must be valid positive numbers.
-- Dates should be provided as valid date strings.
-
-## Notes
-
-- The API returns raw Prisma model objects in many endpoints.
-- The `Authorization` header must include a valid JWT access token.
-- `POST /auth/refresh` returns a fresh `accessToken` and `refreshToken`.
-- Some `GET` endpoints accept request bodies instead of query parameters.
+| Campo | Regras |
+|-------|--------|
+| `email` | Formato de e-mail válido |
+| `password` | 6–18 caracteres |
+| `passwordConfirm` | Deve ser igual a `password` |
+| `username` | 3–24 caracteres, alfanumérico + `._-` |
+| `name` (cliente/item) | 2–50 caracteres |
+| `category` | Máx. 30 caracteres |
+| `location` | Máx. 80 caracteres |
+| `phone` | 10–11 dígitos |
+| `totalQuantity` | ≥ 0 |
+| `loanQuantity` | ≥ 1, não pode exceder `totalQuantity` do item |
+| `id` (parâmetro) | Número inteiro positivo |
+| Datas | String ISO 8601 (ex.: `"2025-01-15"`) |
